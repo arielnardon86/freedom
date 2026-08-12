@@ -50,7 +50,13 @@ export function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-6 lg:flex">
+          <Link
+            href="/ingresar"
+            className="text-[0.8rem] font-medium uppercase tracking-[0.12em] text-foreground/80 transition-colors hover:text-gold"
+          >
+            Ingresar
+          </Link>
           <Button href="#contacto" variant="primary" className="px-6 py-3 text-[0.72rem]">
             Reservar Fecha
           </Button>
@@ -96,14 +102,24 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <Button
-            href="#contacto"
-            variant="primary"
-            className="mt-6 w-full"
-            onClick={() => setOpen(false)}
-          >
-            Reservar Fecha
-          </Button>
+          <div className="mt-6 flex flex-col gap-3">
+            <Button
+              href="#contacto"
+              variant="primary"
+              className="w-full"
+              onClick={() => setOpen(false)}
+            >
+              Reservar Fecha
+            </Button>
+            <Button
+              href="/ingresar"
+              variant="outline"
+              className="w-full"
+              onClick={() => setOpen(false)}
+            >
+              Ingresar
+            </Button>
+          </div>
         </div>
       ) : null}
     </header>

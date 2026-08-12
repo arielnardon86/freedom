@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SignOutButton } from "@/components/ui/SignOutButton";
 
 export function PortalNav() {
   return (
@@ -22,6 +23,7 @@ export function PortalNav() {
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold/15 text-xs font-semibold text-gold">
             CL
           </span>
+          <SignOutButton />
         </div>
       </div>
     </header>

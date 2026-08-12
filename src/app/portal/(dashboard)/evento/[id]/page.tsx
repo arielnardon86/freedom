@@ -34,7 +34,7 @@ export default async function PortalEventoPage({
 
       <ComingSoon
         title="Fotos del evento"
-        description="Acá vas a poder ver y descargar las fotos de tu evento, conectadas directamente desde Google Drive. Lo habilitamos en la próxima etapa."
+        description="Acá vas a poder acceder a la carpeta de Google Drive con las fotos de tu evento, cargada por el fotógrafo. Lo habilitamos en la próxima etapa."
       />
     </div>
   );

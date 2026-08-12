@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SignOutButton } from "@/components/ui/SignOutButton";
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: DashboardIcon },
@@ -49,10 +50,11 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="border-t border-border p-4">
-        <span className="block px-4 text-[0.65rem] uppercase tracking-[0.15em] text-muted-soft">
+      <div className="flex flex-col gap-2 border-t border-border p-4">
+        <span className="px-1 text-[0.65rem] uppercase tracking-[0.15em] text-muted-soft">
           Panel del administrador
         </span>
+        <SignOutButton className="px-1 text-left" />
       </div>
     </aside>
   );
