@@ -1,6 +1,6 @@
 import { Topbar } from "@/components/admin/Topbar";
 import { EventForm } from "@/components/admin/EventForm";
-import { listClients } from "@/lib/supabase/queries";
+import { listClients } from "@/lib/queries";
 
 export default async function NuevoEventoPage() {
   const clients = await listClients();

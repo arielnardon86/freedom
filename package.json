@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:seed": "node --env-file=.env.local --import tsx scripts/seed-admin.ts"
   },
   "dependencies": {
-    "@supabase/ssr": "^0.12.4",
-    "@supabase/supabase-js": "^2.109.0",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.8",
     "next": "16.3.0",
+    "postgres": "^3.4.9",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
@@ -23,6 +25,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }

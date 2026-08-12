@@ -3,8 +3,8 @@ import { Topbar } from "@/components/admin/Topbar";
 import { UserForm } from "@/components/admin/UserForm";
 import { ResetPasswordButton } from "@/components/admin/ResetPasswordButton";
 import { ComingSoon } from "@/components/ui/ComingSoon";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { listProfiles } from "@/lib/supabase/queries";
+import { isDatabaseConfigured } from "@/lib/db";
+import { listProfiles } from "@/lib/queries";
 
 export default async function EditarUsuarioPage({
   params,
@@ -13,14 +13,14 @@ export default async function EditarUsuarioPage({
 }) {
   const { id } = await params;
 
-  if (!isSupabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
     return (
       <>
         <Topbar title="Editar usuario" />
         <div className="flex flex-1 flex-col p-6 sm:p-10">
           <ComingSoon
-            title="Conectá Supabase"
-            description="Para editar usuarios necesitás conectar un proyecto de Supabase. Mirá .env.local.example."
+            title="Conectá la base de datos"
+            description="Para editar usuarios necesitás conectar la base. Mirá .env.local.example."
           />
         </div>
       </>

@@ -4,9 +4,8 @@ import { EventFilters } from "@/components/admin/EventFilters";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ComingSoon } from "@/components/ui/ComingSoon";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { listClients } from "@/lib/supabase/queries";
+import { sql, isDatabaseConfigured } from "@/lib/db";
+import { listClients } from "@/lib/queries";
 import { eventTypeLabels, paymentStatusLabels } from "@/lib/types";
 import type { Event, PaymentStatus } from "@/lib/types";
 
@@ -22,6 +21,8 @@ const paymentTone: Record<PaymentStatus, "green" | "gold" | "red"> = {
   pendiente: "red",
 };
 
+type EventRow = Event & { cliente_full_name: string | null };
+
 export default async function AdminEventosPage({
   searchParams,
 }: {
@@ -31,13 +32,7 @@ export default async function AdminEventosPage({
   const clients = await listClients();
 
   let events: Event[] = [];
-  if (isSupabaseConfigured()) {
-    const supabase = createAdminClient();
-    let query = supabase
-      .from("events")
-      .select("*, cliente:profiles(id, full_name)")
-      .order("fecha_evento", { ascending: false });
-
+  if (isDatabaseConfigured()) {
     const tipo = asString(params.tipo);
     const pago = asString(params.pago);
     const entregado = asString(params.entregado);
@@ -46,17 +41,31 @@ export default async function AdminEventosPage({
     const hasta = asString(params.hasta);
     const q = asString(params.q);
 
-    if (tipo) query = query.eq("tipo_evento", tipo);
-    if (pago) query = query.eq("estado_pago", pago);
-    if (entregado === "si") query = query.eq("entregado", true);
-    if (entregado === "no") query = query.eq("entregado", false);
-    if (cliente) query = query.eq("cliente_id", cliente);
-    if (desde) query = query.gte("fecha_evento", desde);
-    if (hasta) query = query.lte("fecha_evento", hasta);
-    if (q) query = query.ilike("nombre", `%${q}%`);
+    let where = sql`true`;
+    if (tipo) where = sql`${where} and e.tipo_evento = ${tipo}`;
+    if (pago) where = sql`${where} and e.estado_pago = ${pago}`;
+    if (entregado === "si") where = sql`${where} and e.entregado = true`;
+    if (entregado === "no") where = sql`${where} and e.entregado = false`;
+    if (cliente) where = sql`${where} and e.cliente_id = ${cliente}`;
+    if (desde) where = sql`${where} and e.fecha_evento >= ${desde}`;
+    if (hasta) where = sql`${where} and e.fecha_evento <= ${hasta}`;
+    if (q) where = sql`${where} and e.nombre ilike ${`%${q}%`}`;
 
-    const { data } = await query;
-    events = (data as Event[] | null) ?? [];
+    const rows = await sql<EventRow[]>`
+      select e.*, c.full_name as cliente_full_name
+      from events e
+      left join users c on c.id = e.cliente_id
+      where ${where}
+      order by e.fecha_evento desc
+    `;
+
+    events = rows.map((row) => ({
+      ...row,
+      cliente:
+        row.cliente_id && row.cliente_full_name
+          ? { id: row.cliente_id, full_name: row.cliente_full_name }
+          : null,
+    }));
   }
 
   return (
@@ -73,10 +82,10 @@ export default async function AdminEventosPage({
           Nuevo evento
         </Button>
 
-        {!isSupabaseConfigured() ? (
+        {!isDatabaseConfigured() ? (
           <ComingSoon
-            title="Conectá Supabase"
-            description="Para crear y consultar eventos necesitás conectar un proyecto de Supabase. Mirá .env.local.example."
+            title="Conectá la base de datos"
+            description="Para crear y consultar eventos necesitás conectar la base. Mirá .env.local.example."
           />
         ) : events.length === 0 ? (
           <ComingSoon

@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { randomBytes } from "node:crypto";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured, SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/config";
+import { sql, isDatabaseConfigured, DATABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/db";
+import { hashPassword } from "@/lib/auth/password";
 import type { UserRole } from "@/lib/types";
 
 export type UserFormState = { error: string | null };
@@ -13,12 +13,14 @@ export async function createUser(
   _prevState: UserFormState,
   formData: FormData,
 ): Promise<UserFormState> {
-  if (!isSupabaseConfigured()) {
-    return { error: SUPABASE_NOT_CONFIGURED_MESSAGE };
+  if (!isDatabaseConfigured()) {
+    return { error: DATABASE_NOT_CONFIGURED_MESSAGE };
   }
 
   const full_name = String(formData.get("full_name") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
+  const email = String(formData.get("email") ?? "")
+    .trim()
+    .toLowerCase();
   const phone = String(formData.get("phone") ?? "").trim() || null;
   const birth_date = String(formData.get("birth_date") ?? "") || null;
   const role = String(formData.get("role") ?? "client") as UserRole;
@@ -28,23 +30,18 @@ export async function createUser(
     return { error: "Completá nombre, email y una contraseña de al menos 8 caracteres." };
   }
 
-  const supabase = createAdminClient();
-  const { data, error } = await supabase.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-  });
+  const password_hash = await hashPassword(password);
 
-  if (error || !data.user) {
-    return { error: error?.message ?? "No se pudo crear el usuario." };
-  }
-
-  const { error: profileError } = await supabase
-    .from("profiles")
-    .insert({ id: data.user.id, full_name, phone, birth_date, role });
-
-  if (profileError) {
-    return { error: profileError.message };
+  try {
+    await sql`
+      insert into users ${sql({ full_name, email, phone, birth_date, role, password_hash })}
+    `;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "No se pudo crear el usuario.";
+    const friendly = message.includes("users_email_key")
+      ? "Ya existe un usuario con ese email."
+      : message;
+    return { error: friendly };
   }
 
   revalidatePath("/admin/usuarios");
@@ -56,8 +53,8 @@ export async function updateUser(
   _prevState: UserFormState,
   formData: FormData,
 ): Promise<UserFormState> {
-  if (!isSupabaseConfigured()) {
-    return { error: SUPABASE_NOT_CONFIGURED_MESSAGE };
+  if (!isDatabaseConfigured()) {
+    return { error: DATABASE_NOT_CONFIGURED_MESSAGE };
   }
 
   const full_name = String(formData.get("full_name") ?? "").trim();
@@ -69,13 +66,9 @@ export async function updateUser(
     return { error: "Completá el nombre." };
   }
 
-  const supabase = createAdminClient();
-  const { error } = await supabase
-    .from("profiles")
-    .update({ full_name, phone, birth_date, role })
-    .eq("id", id);
-
-  if (error) return { error: error.message };
+  await sql`
+    update users set ${sql({ full_name, phone, birth_date, role })} where id = ${id}
+  `;
 
   revalidatePath("/admin/usuarios");
   redirect("/admin/usuarios");
@@ -88,18 +81,14 @@ export async function resetPassword(
   _prevState: ResetPasswordState,
   _formData: FormData,
 ): Promise<ResetPasswordState> {
-  if (!isSupabaseConfigured()) {
-    return { password: null, error: SUPABASE_NOT_CONFIGURED_MESSAGE };
+  if (!isDatabaseConfigured()) {
+    return { password: null, error: DATABASE_NOT_CONFIGURED_MESSAGE };
   }
 
   const tempPassword = randomBytes(9).toString("base64url");
+  const password_hash = await hashPassword(tempPassword);
 
-  const supabase = createAdminClient();
-  const { error } = await supabase.auth.admin.updateUserById(userId, {
-    password: tempPassword,
-  });
-
-  if (error) return { password: null, error: error.message };
+  await sql`update users set password_hash = ${password_hash} where id = ${userId}`;
 
   return { password: tempPassword, error: null };
 }

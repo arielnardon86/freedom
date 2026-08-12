@@ -1,8 +1,7 @@
 import { Topbar } from "@/components/admin/Topbar";
 import { Badge } from "@/components/ui/Badge";
 import { ComingSoon } from "@/components/ui/ComingSoon";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { sql, isDatabaseConfigured } from "@/lib/db";
 import { eventTypeLabels, paymentStatusLabels } from "@/lib/types";
 import type { Event, PaymentStatus } from "@/lib/types";
 
@@ -12,17 +11,26 @@ const paymentTone: Record<PaymentStatus, "green" | "gold" | "red"> = {
   pendiente: "red",
 };
 
+type EventRow = Event & { cliente_full_name: string | null };
+
 export default async function AdminDashboardPage() {
-  const configured = isSupabaseConfigured();
+  const configured = isDatabaseConfigured();
   let events: Event[] = [];
 
   if (configured) {
-    const supabase = createAdminClient();
-    const { data } = await supabase
-      .from("events")
-      .select("*, cliente:profiles(id, full_name)")
-      .order("fecha_evento", { ascending: true });
-    events = (data as Event[] | null) ?? [];
+    const rows = await sql<EventRow[]>`
+      select e.*, c.full_name as cliente_full_name
+      from events e
+      left join users c on c.id = e.cliente_id
+      order by e.fecha_evento asc
+    `;
+    events = rows.map((row) => ({
+      ...row,
+      cliente:
+        row.cliente_id && row.cliente_full_name
+          ? { id: row.cliente_id, full_name: row.cliente_full_name }
+          : null,
+    }));
   }
 
   const today = new Date();
@@ -70,8 +78,8 @@ export default async function AdminDashboardPage() {
 
         {!configured ? (
           <ComingSoon
-            title="Conectá Supabase"
-            description="Cuando conectes tu proyecto de Supabase, acá vas a ver el estado real de tus eventos y accesos rápidos."
+            title="Conectá la base de datos"
+            description="Cuando conectes la base, acá vas a ver el estado real de tus eventos y accesos rápidos."
           />
         ) : proximosEventos.length === 0 ? (
           <ComingSoon

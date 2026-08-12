@@ -2,8 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured, SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/config";
+import { sql, isDatabaseConfigured, DATABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/db";
 import type { EventType, PaymentStatus } from "@/lib/types";
 
 export type EventFormState = { error: string | null };
@@ -25,8 +24,8 @@ export async function createEvent(
   _prevState: EventFormState,
   formData: FormData,
 ): Promise<EventFormState> {
-  if (!isSupabaseConfigured()) {
-    return { error: SUPABASE_NOT_CONFIGURED_MESSAGE };
+  if (!isDatabaseConfigured()) {
+    return { error: DATABASE_NOT_CONFIGURED_MESSAGE };
   }
 
   const values = parseEventForm(formData);
@@ -34,9 +33,11 @@ export async function createEvent(
     return { error: "Completá nombre, fecha y tipo de evento." };
   }
 
-  const supabase = createAdminClient();
-  const { error } = await supabase.from("events").insert(values);
-  if (error) return { error: error.message };
+  try {
+    await sql`insert into events ${sql(values)}`;
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "No se pudo crear el evento." };
+  }
 
   revalidatePath("/admin/eventos");
   redirect("/admin/eventos");
@@ -47,8 +48,8 @@ export async function updateEvent(
   _prevState: EventFormState,
   formData: FormData,
 ): Promise<EventFormState> {
-  if (!isSupabaseConfigured()) {
-    return { error: SUPABASE_NOT_CONFIGURED_MESSAGE };
+  if (!isDatabaseConfigured()) {
+    return { error: DATABASE_NOT_CONFIGURED_MESSAGE };
   }
 
   const values = parseEventForm(formData);
@@ -56,22 +57,23 @@ export async function updateEvent(
     return { error: "Completá nombre, fecha y tipo de evento." };
   }
 
-  const supabase = createAdminClient();
-  const { error } = await supabase.from("events").update(values).eq("id", id);
-  if (error) return { error: error.message };
+  try {
+    await sql`update events set ${sql(values)} where id = ${id}`;
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "No se pudo guardar el evento." };
+  }
 
   revalidatePath("/admin/eventos");
   redirect("/admin/eventos");
 }
 
 export async function deleteEvent(formData: FormData) {
-  if (!isSupabaseConfigured()) return;
+  if (!isDatabaseConfigured()) return;
 
   const id = String(formData.get("id") ?? "");
   if (!id) return;
 
-  const supabase = createAdminClient();
-  await supabase.from("events").delete().eq("id", id);
+  await sql`delete from events where id = ${id}`;
 
   revalidatePath("/admin/eventos");
   redirect("/admin/eventos");

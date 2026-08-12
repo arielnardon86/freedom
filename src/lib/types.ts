@@ -33,12 +33,12 @@ export const roleLabels: Record<UserRole, string> = {
 export type Profile = {
   id: string;
   full_name: string;
+  email: string;
   phone: string | null;
   birth_date: string | null;
   role: UserRole;
   created_at: string;
   updated_at: string;
-  email?: string | null;
 };
 
 export type Event = {

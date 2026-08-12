@@ -1,8 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured, SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/config";
+import { sql, isDatabaseConfigured, DATABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/db";
+import { verifyPassword } from "@/lib/auth/password";
+import { createSession } from "@/lib/auth/session";
+import type { UserRole } from "@/lib/types";
 
 export type SignInState = { error: string | null };
 
@@ -10,25 +12,24 @@ export async function signIn(
   _prevState: SignInState,
   formData: FormData,
 ): Promise<SignInState> {
-  if (!isSupabaseConfigured()) {
-    return { error: SUPABASE_NOT_CONFIGURED_MESSAGE };
+  if (!isDatabaseConfigured()) {
+    return { error: DATABASE_NOT_CONFIGURED_MESSAGE };
   }
 
-  const email = String(formData.get("email") ?? "");
+  const email = String(formData.get("email") ?? "")
+    .trim()
+    .toLowerCase();
   const password = String(formData.get("password") ?? "");
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const [user] = await sql<{ id: string; role: UserRole; password_hash: string }[]>`
+    select id, role, password_hash from users where email = ${email}
+  `;
 
-  if (error || !data.user) {
+  if (!user || !(await verifyPassword(password, user.password_hash))) {
     return { error: "Email o contraseña incorrectos." };
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", data.user.id)
-    .single();
+  await createSession({ sub: user.id, role: user.role });
 
-  redirect(profile?.role === "admin" ? "/admin" : "/portal");
+  redirect(user.role === "admin" ? "/admin" : "/portal");
 }

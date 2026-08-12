@@ -3,9 +3,8 @@ import { Topbar } from "@/components/admin/Topbar";
 import { EventForm } from "@/components/admin/EventForm";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 import { ConfirmSubmitButton } from "@/components/ui/ConfirmSubmitButton";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { listClients } from "@/lib/supabase/queries";
+import { sql, isDatabaseConfigured } from "@/lib/db";
+import { listClients } from "@/lib/queries";
 import type { Event } from "@/lib/types";
 import { deleteEvent } from "../actions";
 
@@ -16,23 +15,22 @@ export default async function EditarEventoPage({
 }) {
   const { id } = await params;
 
-  if (!isSupabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
     return (
       <>
         <Topbar title="Editar evento" />
         <div className="flex flex-1 flex-col p-6 sm:p-10">
           <ComingSoon
-            title="Conectá Supabase"
-            description="Para editar eventos necesitás conectar un proyecto de Supabase. Mirá .env.local.example."
+            title="Conectá la base de datos"
+            description="Para editar eventos necesitás conectar la base. Mirá .env.local.example."
           />
         </div>
       </>
     );
   }
 
-  const supabase = createAdminClient();
-  const [{ data: event }, clients] = await Promise.all([
-    supabase.from("events").select("*").eq("id", id).single(),
+  const [[event], clients] = await Promise.all([
+    sql<Event[]>`select * from events where id = ${id}`,
     listClients(),
   ]);
 
@@ -44,7 +42,7 @@ export default async function EditarEventoPage({
     <>
       <Topbar title={event.nombre} description="Editá los datos del evento." />
       <div className="flex max-w-2xl flex-1 flex-col gap-8 p-6 sm:p-10">
-        <EventForm clients={clients} event={event as Event} />
+        <EventForm clients={clients} event={event} />
 
         <div className="rounded-2xl border border-border bg-background-elevated p-6">
           <h2 className="font-display text-base font-semibold text-foreground">Invitación</h2>

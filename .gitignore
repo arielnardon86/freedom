@@ -43,3 +43,6 @@ next-env.d.ts
 
 # impeccable design-review cache
 .impeccable/
+
+# Postgres local (desarrollo, ver README para levantarlo)
+.postgres-data/

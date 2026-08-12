@@ -2,8 +2,8 @@ import { Topbar } from "@/components/admin/Topbar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ComingSoon } from "@/components/ui/ComingSoon";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { listProfiles } from "@/lib/supabase/queries";
+import { isDatabaseConfigured } from "@/lib/db";
+import { listProfiles } from "@/lib/queries";
 import { roleLabels } from "@/lib/types";
 
 export default async function AdminUsuariosPage() {
@@ -20,10 +20,10 @@ export default async function AdminUsuariosPage() {
           Nuevo usuario
         </Button>
 
-        {!isSupabaseConfigured() ? (
+        {!isDatabaseConfigured() ? (
           <ComingSoon
-            title="Conectá Supabase"
-            description="Para crear y consultar usuarios necesitás conectar un proyecto de Supabase. Mirá .env.local.example."
+            title="Conectá la base de datos"
+            description="Para crear y consultar usuarios necesitás conectar la base. Mirá .env.local.example."
           />
         ) : profiles.length === 0 ? (
           <ComingSoon
@@ -48,7 +48,7 @@ export default async function AdminUsuariosPage() {
                     <td className="px-4 py-3 font-medium text-foreground">
                       {profile.full_name}
                     </td>
-                    <td className="px-4 py-3 text-muted">{profile.email ?? "—"}</td>
+                    <td className="px-4 py-3 text-muted">{profile.email}</td>
                     <td className="px-4 py-3 text-muted">{profile.phone ?? "—"}</td>
                     <td className="px-4 py-3">
                       <Badge tone={profile.role === "admin" ? "gold" : "neutral"}>
