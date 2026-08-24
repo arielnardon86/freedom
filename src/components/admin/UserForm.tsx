@@ -99,7 +99,7 @@ export function UserForm({ profile }: { profile?: Profile }) {
         </p>
       ) : null}
 
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         <Button type="submit" variant="primary" disabled={pending}>
           {pending ? "Guardando..." : profile ? "Guardar cambios" : "Crear usuario"}
         </Button>

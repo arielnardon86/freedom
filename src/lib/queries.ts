@@ -49,15 +49,6 @@ export async function getEventForClient(
   return event ?? null;
 }
 
-export async function listEventsWithInvite(): Promise<Event[]> {
-  if (!isDatabaseConfigured()) return [];
-  return sql<Event[]>`
-    select * from events
-    where invite_slug is not null
-    order by fecha_evento desc
-  `;
-}
-
 // Landing pública de invitación.
 export async function getEventByInviteSlug(slug: string): Promise<Event | null> {
   if (!isDatabaseConfigured()) return null;

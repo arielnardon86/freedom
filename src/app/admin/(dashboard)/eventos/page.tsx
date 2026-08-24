@@ -132,7 +132,7 @@ export default async function AdminEventosPage({
                         href={`/admin/eventos/${event.id}`}
                         className="text-xs font-semibold uppercase tracking-[0.08em] text-gold hover:text-gold-light"
                       >
-                        Editar
+                        Ver
                       </a>
                     </td>
                   </tr>

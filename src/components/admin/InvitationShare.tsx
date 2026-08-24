@@ -17,7 +17,7 @@ export function InvitationShare({
         alt="Código QR de la invitación"
         className="h-28 w-28 shrink-0 rounded-lg border border-border bg-white p-2"
       />
-      <div className="flex flex-1 flex-col gap-3">
+      <div className="flex min-w-0 flex-1 flex-col gap-3">
         <InvitationLink url={url} />
         <a
           href={`/api/invitacion/${slug}/pdf`}

@@ -8,7 +8,6 @@ import { SignOutButton } from "@/components/ui/SignOutButton";
 const links = [
   { href: "/admin", label: "Dashboard", icon: DashboardIcon },
   { href: "/admin/eventos", label: "Eventos", icon: EventsIcon },
-  { href: "/admin/invitaciones", label: "Invitaciones", icon: InviteIcon },
   { href: "/admin/usuarios", label: "Usuarios", icon: UsersIcon },
 ];
 
@@ -78,15 +77,6 @@ function EventsIcon({ className }: IconProps) {
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
       <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.6" />
       <path d="M3 9.5h18M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function InviteIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M4 6.5l8 6 8-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

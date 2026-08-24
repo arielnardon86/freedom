@@ -17,7 +17,7 @@ export function InvitationLink({ url }: { url: string }) {
 
   return (
     <div className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-background px-4 py-3">
-      <code className="flex-1 truncate text-sm text-foreground">{url}</code>
+      <code className="min-w-0 flex-1 truncate text-sm text-foreground">{url}</code>
       <button
         type="button"
         onClick={copy}
