@@ -1,13 +1,14 @@
 import { notFound } from "next/navigation";
 import { Topbar } from "@/components/admin/Topbar";
 import { EventForm } from "@/components/admin/EventForm";
-import { InvitationLink } from "@/components/admin/InvitationLink";
+import { InvitationShare } from "@/components/admin/InvitationShare";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 import { ConfirmSubmitButton } from "@/components/ui/ConfirmSubmitButton";
 import { sql, isDatabaseConfigured } from "@/lib/db";
 import { listClients, listReviewsForEvent } from "@/lib/queries";
+import { generateQrDataUrl } from "@/lib/qrcode";
 import { getBaseUrl } from "@/lib/url";
 import type { Event } from "@/lib/types";
 import {
@@ -49,6 +50,9 @@ export default async function EditarEventoPage({
     notFound();
   }
 
+  const inviteUrl = event.invite_slug ? `${baseUrl}/invitacion/${event.invite_slug}` : null;
+  const qrDataUrl = inviteUrl ? await generateQrDataUrl(inviteUrl) : null;
+
   return (
     <>
       <Topbar title={event.nombre} description="Editá los datos del evento." />
@@ -62,9 +66,9 @@ export default async function EditarEventoPage({
             del evento dentro de tu web.
           </p>
 
-          {event.invite_slug ? (
+          {event.invite_slug && inviteUrl && qrDataUrl ? (
             <div className="mt-4 flex flex-col gap-4">
-              <InvitationLink url={`${baseUrl}/invitacion/${event.invite_slug}`} />
+              <InvitationShare url={inviteUrl} slug={event.invite_slug} qrDataUrl={qrDataUrl} />
               <div className="flex flex-wrap gap-3">
                 <Button
                   href={`/invitacion/${event.invite_slug}`}
