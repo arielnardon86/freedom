@@ -56,3 +56,13 @@ export type Event = {
   updated_at: string;
   cliente?: Pick<Profile, "id" | "full_name"> | null;
 };
+
+export type Review = {
+  id: string;
+  event_id: string;
+  author_name: string;
+  rating: number;
+  comment: string;
+  approved: boolean;
+  created_at: string;
+};

@@ -78,3 +78,62 @@ export async function deleteEvent(formData: FormData) {
   revalidatePath("/admin/eventos");
   redirect("/admin/eventos");
 }
+
+function slugify(text: string) {
+  return text
+    .normalize("NFD")
+    .replace(new RegExp("[\\u0300-\\u036f]", "g"), "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function randomSuffix(length = 5) {
+  return Math.random().toString(36).slice(2, 2 + length);
+}
+
+export async function generateInviteSlug(formData: FormData) {
+  if (!isDatabaseConfigured()) return;
+
+  const eventId = String(formData.get("id") ?? "");
+  const [event] = await sql<{ nombre: string }[]>`
+    select nombre from events where id = ${eventId}
+  `;
+  if (!event) return;
+
+  const base = slugify(event.nombre) || "evento";
+
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const slug = `${base}-${randomSuffix()}`;
+    try {
+      await sql`update events set invite_slug = ${slug} where id = ${eventId}`;
+      break;
+    } catch (error) {
+      if (attempt === 4) throw error;
+    }
+  }
+
+  revalidatePath(`/admin/eventos/${eventId}`);
+}
+
+export async function approveReview(formData: FormData) {
+  if (!isDatabaseConfigured()) return;
+
+  const id = String(formData.get("id") ?? "");
+  const eventId = String(formData.get("eventId") ?? "");
+  if (!id) return;
+
+  await sql`update reviews set approved = true where id = ${id}`;
+  revalidatePath(`/admin/eventos/${eventId}`);
+}
+
+export async function deleteReview(formData: FormData) {
+  if (!isDatabaseConfigured()) return;
+
+  const id = String(formData.get("id") ?? "");
+  const eventId = String(formData.get("eventId") ?? "");
+  if (!id) return;
+
+  await sql`delete from reviews where id = ${id}`;
+  revalidatePath(`/admin/eventos/${eventId}`);
+}

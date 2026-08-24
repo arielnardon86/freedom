@@ -1,12 +1,21 @@
 import { notFound } from "next/navigation";
 import { Topbar } from "@/components/admin/Topbar";
 import { EventForm } from "@/components/admin/EventForm";
+import { InvitationLink } from "@/components/admin/InvitationLink";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 import { ConfirmSubmitButton } from "@/components/ui/ConfirmSubmitButton";
 import { sql, isDatabaseConfigured } from "@/lib/db";
-import { listClients } from "@/lib/queries";
+import { listClients, listReviewsForEvent } from "@/lib/queries";
+import { getBaseUrl } from "@/lib/url";
 import type { Event } from "@/lib/types";
-import { deleteEvent } from "../actions";
+import {
+  deleteEvent,
+  generateInviteSlug,
+  approveReview,
+  deleteReview,
+} from "../actions";
 
 export default async function EditarEventoPage({
   params,
@@ -29,9 +38,11 @@ export default async function EditarEventoPage({
     );
   }
 
-  const [[event], clients] = await Promise.all([
+  const [[event], clients, reviews, baseUrl] = await Promise.all([
     sql<Event[]>`select * from events where id = ${id}`,
     listClients(),
+    listReviewsForEvent(id),
+    getBaseUrl(),
   ]);
 
   if (!event) {
@@ -47,16 +58,97 @@ export default async function EditarEventoPage({
         <div className="rounded-2xl border border-border bg-background-elevated p-6">
           <h2 className="font-display text-base font-semibold text-foreground">Invitación</h2>
           <p className="mt-1 text-sm text-muted">
-            Generá un link para que el cliente vea las fotos del evento en tu web. Esta
-            función se habilita en la próxima etapa.
+            Link para que el cliente y sus invitados vean, likeen y descarguen las fotos
+            del evento dentro de tu web.
           </p>
-          <button
-            type="button"
-            disabled
-            className="mt-4 rounded-full border border-border-strong px-6 py-3 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-muted opacity-60"
-          >
-            Generar invitación (Próximamente)
-          </button>
+
+          {event.invite_slug ? (
+            <div className="mt-4 flex flex-col gap-4">
+              <InvitationLink url={`${baseUrl}/invitacion/${event.invite_slug}`} />
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  href={`/invitacion/${event.invite_slug}`}
+                  variant="outline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Ver como invitado
+                </Button>
+                <form action={generateInviteSlug}>
+                  <input type="hidden" name="id" value={event.id} />
+                  <ConfirmSubmitButton
+                    label="Generar nuevo link"
+                    confirmText="Esto invalida el link anterior — quien lo tenga guardado va a dejar de poder usarlo. ¿Continuar?"
+                    className="rounded-full border border-border-strong px-6 py-3 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-muted transition-colors hover:border-gold hover:text-gold"
+                  />
+                </form>
+              </div>
+            </div>
+          ) : (
+            <form action={generateInviteSlug} className="mt-4">
+              <input type="hidden" name="id" value={event.id} />
+              <Button type="submit" variant="primary">
+                Generar invitación
+              </Button>
+            </form>
+          )}
+        </div>
+
+        <div className="rounded-2xl border border-border bg-background-elevated p-6">
+          <h2 className="font-display text-base font-semibold text-foreground">Reseñas</h2>
+          <p className="mt-1 text-sm text-muted">
+            Las que dejan los invitados en la landing quedan pendientes hasta que las
+            apruebes.
+          </p>
+
+          {reviews.length === 0 ? (
+            <p className="mt-4 text-sm text-muted-soft">
+              Todavía no hay reseñas para este evento.
+            </p>
+          ) : (
+            <ul className="mt-4 flex flex-col gap-4">
+              {reviews.map((review) => (
+                <li key={review.id} className="rounded-xl border border-border p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-foreground">{review.author_name}</span>
+                      <span className="text-gold">
+                        {"★".repeat(review.rating)}
+                        {"☆".repeat(5 - review.rating)}
+                      </span>
+                    </div>
+                    <Badge tone={review.approved ? "green" : "gold"}>
+                      {review.approved ? "Aprobada" : "Pendiente"}
+                    </Badge>
+                  </div>
+                  <p className="mt-2 text-sm text-muted">{review.comment}</p>
+                  <div className="mt-3 flex gap-4">
+                    {!review.approved ? (
+                      <form action={approveReview}>
+                        <input type="hidden" name="id" value={review.id} />
+                        <input type="hidden" name="eventId" value={event.id} />
+                        <button
+                          type="submit"
+                          className="text-xs font-semibold uppercase tracking-[0.08em] text-gold hover:text-gold-light"
+                        >
+                          Aprobar
+                        </button>
+                      </form>
+                    ) : null}
+                    <form action={deleteReview}>
+                      <input type="hidden" name="id" value={review.id} />
+                      <input type="hidden" name="eventId" value={event.id} />
+                      <ConfirmSubmitButton
+                        label="Eliminar"
+                        confirmText="¿Eliminar esta reseña?"
+                        className="text-xs font-semibold uppercase tracking-[0.08em] text-red-300 transition-colors hover:text-red-200"
+                      />
+                    </form>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="rounded-2xl border border-red-900/30 bg-red-950/10 p-6">

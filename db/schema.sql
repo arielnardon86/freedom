@@ -47,13 +47,42 @@ create table events (
   drive_link text,
   entregado boolean not null default false,
   estado_pago payment_status not null default 'pendiente',
-  invite_slug text unique, -- se usa en la próxima etapa (landing de invitación)
+  invite_slug text unique, -- link público de invitación (/invitacion/<slug>)
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
 create index events_cliente_id_idx on events (cliente_id);
 create index events_fecha_evento_idx on events (fecha_evento);
+
+-- Likes de invitados en la landing pública (/invitacion/<slug>). visitor_id
+-- es un uuid generado en el navegador (localStorage), no hay cuentas de
+-- invitado. El unique evita que el mismo visitante sume más de un like a la
+-- misma foto.
+create table photo_likes (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references events (id) on delete cascade,
+  drive_file_id text not null,
+  visitor_id text not null,
+  created_at timestamptz not null default now(),
+  unique (event_id, drive_file_id, visitor_id)
+);
+
+create index photo_likes_event_id_idx on photo_likes (event_id);
+
+-- Reseñas dejadas desde la landing pública. Quedan en `approved = false`
+-- hasta que el admin las aprueba desde /admin/eventos/<id>.
+create table reviews (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references events (id) on delete cascade,
+  author_name text not null,
+  rating smallint not null check (rating between 1 and 5),
+  comment text not null,
+  approved boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index reviews_event_id_idx on reviews (event_id);
 
 create function set_updated_at()
 returns trigger as $$
