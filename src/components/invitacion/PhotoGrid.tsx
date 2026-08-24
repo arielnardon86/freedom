@@ -115,7 +115,7 @@ export function PhotoGrid({
               </button>
 
               <a
-                href={`/api/drive/${photo.id}/download`}
+                href={`/api/drive/${photo.id}/download?name=${encodeURIComponent(photo.name)}`}
                 className="rounded-full bg-black/50 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
                 aria-label={`Descargar ${photo.name}`}
               >

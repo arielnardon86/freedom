@@ -3,7 +3,7 @@ import { fetchDriveFileStream, isDriveConfigured } from "@/lib/drive";
 export const runtime = "nodejs";
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ fileId: string }> },
 ) {
   if (!isDriveConfigured()) {
@@ -11,6 +11,7 @@ export async function GET(
   }
 
   const { fileId } = await params;
+  const name = new URL(request.url).searchParams.get("name");
 
   try {
     const driveResponse = await fetchDriveFileStream(fileId);
@@ -20,11 +21,9 @@ export async function GET(
       "Content-Type",
       driveResponse.headers.get("content-type") ?? "application/octet-stream",
     );
-    headers.set(
-      "Content-Disposition",
-      driveResponse.headers.get("content-disposition") ??
-        `attachment; filename="foto-${fileId}.jpg"`,
-    );
+    // Drive suele responder solo "attachment" sin filename, así que armamos
+    // el nombre nosotros en vez de confiar en su header.
+    headers.set("Content-Disposition", `attachment; filename="${name || `foto-${fileId}.jpg`}"`);
 
     return new Response(driveResponse.body, { headers });
   } catch (error) {
