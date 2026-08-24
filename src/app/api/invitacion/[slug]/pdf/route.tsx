@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { Document, Page, Text, View, Image, StyleSheet, renderToBuffer } from "@react-pdf/renderer";
 import { isDatabaseConfigured } from "@/lib/db";
 import { getEventByInviteSlug } from "@/lib/queries";
@@ -10,39 +12,55 @@ export const runtime = "nodejs";
 const GOLD = "#B8862F";
 const INK = "#171207";
 
+// Se lee una sola vez (no cambia entre requests).
+const logoBuffer = fs.readFileSync(
+  path.join(process.cwd(), "public/images/logo-freedom-wordmark.png"),
+);
+const LOGO_DATA_URL = `data:image/png;base64,${logoBuffer.toString("base64")}`;
+const LOGO_ASPECT_RATIO = 224 / 725; // alto / ancho del archivo original
+
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "#ffffff",
-    paddingVertical: 40,
-    paddingHorizontal: 40,
-    alignItems: "center",
-    fontFamily: "Helvetica",
+    padding: 20,
   },
-  brand: {
-    fontSize: 18,
-    fontFamily: "Helvetica-Bold",
-    color: GOLD,
-    letterSpacing: 1,
-    marginBottom: 22,
+  frame: {
+    flex: 1,
+    borderWidth: 1.5,
+    borderColor: GOLD,
+    paddingVertical: 28,
+    paddingHorizontal: 32,
+    alignItems: "center",
+  },
+  logo: {
+    width: 160,
+    height: 160 * LOGO_ASPECT_RATIO,
+    marginBottom: 14,
+  },
+  rule: {
+    width: 46,
+    height: 1.5,
+    backgroundColor: GOLD,
+    marginBottom: 18,
   },
   eyebrow: {
     fontSize: 9,
     letterSpacing: 2,
     color: GOLD,
-    marginBottom: 6,
+    marginBottom: 8,
     textTransform: "uppercase",
   },
   title: {
-    fontSize: 20,
-    fontFamily: "Helvetica-Bold",
-    marginBottom: 4,
+    fontSize: 21,
+    fontFamily: "Times-Bold",
+    marginBottom: 5,
     textAlign: "center",
     color: INK,
   },
   meta: {
     fontSize: 10,
     color: "#666666",
-    marginBottom: 24,
+    marginBottom: 20,
     textAlign: "center",
   },
   qrWrap: {
@@ -52,8 +70,8 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   qr: {
-    width: 190,
-    height: 190,
+    width: 186,
+    height: 186,
   },
   linkLabel: {
     fontSize: 9,
@@ -63,7 +81,7 @@ const styles = StyleSheet.create({
   link: {
     fontSize: 10,
     color: INK,
-    marginBottom: 22,
+    marginBottom: 18,
   },
   footer: {
     fontSize: 9,
@@ -101,25 +119,28 @@ export async function GET(
   const doc = (
     <Document>
       <Page size="A5" style={styles.page}>
-        <Text style={styles.brand}>FREEDOM FOTOGRAFÍA</Text>
+        <View style={styles.frame}>
+          <Image src={LOGO_DATA_URL} style={styles.logo} />
+          <View style={styles.rule} />
 
-        <Text style={styles.eyebrow}>{eventTypeLabels[event.tipo_evento]}</Text>
-        <Text style={styles.title}>{event.nombre}</Text>
-        <Text style={styles.meta}>
-          {fecha}
-          {event.lugar ? ` · ${event.lugar}` : ""}
-        </Text>
+          <Text style={styles.eyebrow}>{eventTypeLabels[event.tipo_evento]}</Text>
+          <Text style={styles.title}>{event.nombre}</Text>
+          <Text style={styles.meta}>
+            {fecha}
+            {event.lugar ? ` · ${event.lugar}` : ""}
+          </Text>
 
-        <View style={styles.qrWrap}>
-          <Image src={qrDataUrl} style={styles.qr} />
+          <View style={styles.qrWrap}>
+            <Image src={qrDataUrl} style={styles.qr} />
+          </View>
+
+          <Text style={styles.linkLabel}>O ingresá directamente a:</Text>
+          <Text style={styles.link}>{inviteUrl}</Text>
+
+          <Text style={styles.footer}>
+            Escaneá el código para ver, likear y descargar las fotos del evento.
+          </Text>
         </View>
-
-        <Text style={styles.linkLabel}>O ingresá directamente a:</Text>
-        <Text style={styles.link}>{inviteUrl}</Text>
-
-        <Text style={styles.footer}>
-          Escaneá el código para ver, likear y descargar las fotos de tu evento.
-        </Text>
       </Page>
     </Document>
   );
