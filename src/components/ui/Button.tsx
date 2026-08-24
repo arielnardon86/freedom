@@ -17,12 +17,16 @@ type ButtonProps = {
   variant?: Variant;
   href?: string;
   className?: string;
+  target?: string;
+  rel?: string;
 } & ComponentPropsWithoutRef<"button">;
 
 export function Button({
   variant = "primary",
   href,
   className = "",
+  target,
+  rel,
   children,
   ...props
 }: ButtonProps) {
@@ -30,7 +34,7 @@ export function Button({
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} target={target} rel={rel}>
         {children}
       </Link>
     );

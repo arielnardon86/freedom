@@ -119,23 +119,6 @@ export const instagramImages = [
   "/images/quince-03.jpg",
 ];
 
-export const clientEvents = [
-  {
-    id: "sofia-15",
-    title: "15 de Sofía",
-    date: "12 de julio, 2026",
-    status: "Fotos disponibles",
-    image: "/images/quince-02.jpg",
-  },
-  {
-    id: "cumple-tomas",
-    title: "Cumple de Tomás",
-    date: "3 de abril, 2026",
-    status: "En edición",
-    image: "/images/quince-03.jpg",
-  },
-];
-
 export const contact = {
   whatsapp: "https://wa.me/5493510000000",
   instagram: instagramUrl,
