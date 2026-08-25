@@ -20,8 +20,8 @@ export function Sidebar() {
         <Image
           src="/images/logo-freedom-wordmark.png"
           alt="Freedom Fotografía"
-          width={130}
-          height={40}
+          width={181}
+          height={56}
           className="h-8 w-auto"
         />
       </div>

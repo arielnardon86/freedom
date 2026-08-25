@@ -4,7 +4,7 @@ import { PhotoGrid } from "@/components/invitacion/PhotoGrid";
 import { MostLiked } from "@/components/invitacion/MostLiked";
 import { DownloadAllButton } from "@/components/invitacion/DownloadAllButton";
 import { ReviewsSection } from "@/components/invitacion/ReviewsSection";
-import { WhatsAppFloatingButton } from "@/components/invitacion/WhatsAppFloatingButton";
+import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
 import { Button } from "@/components/ui/Button";
 import { isDatabaseConfigured } from "@/lib/db";
 import { extractDriveFolderId, isDriveConfigured, listDriveImages } from "@/lib/drive";

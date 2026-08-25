@@ -10,8 +10,8 @@ export function Footer() {
           <Image
             src="/images/logo-freedom-wordmark.png"
             alt="Freedom Fotografía"
-            width={140}
-            height={44}
+            width={181}
+            height={56}
             className="h-10 w-auto"
           />
           <p className="max-w-xs text-sm leading-relaxed text-muted">

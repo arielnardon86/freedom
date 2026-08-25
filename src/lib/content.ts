@@ -75,12 +75,6 @@ export const galleries = [
     date: "Junio 2026",
     image: "/images/galeria-pia.jpg",
   },
-  {
-    slug: "15-martina",
-    title: "15 de Martina",
-    date: "Julio 2026",
-    image: "/images/galeria-marti.jpg",
-  },
 ];
 
 export const testimonials = [

@@ -10,8 +10,8 @@ export function InvitationHero({ event }: { event: Event }) {
         <Image
           src="/images/logo-freedom-wordmark.png"
           alt="Freedom Fotografía"
-          width={150}
-          height={46}
+          width={181}
+          height={56}
           className="h-10 w-auto"
         />
       </Link>

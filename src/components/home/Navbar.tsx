@@ -30,8 +30,8 @@ export function Navbar() {
           <Image
             src="/images/logo-freedom-wordmark.png"
             alt="Freedom Fotografía"
-            width={140}
-            height={44}
+            width={181}
+            height={56}
             className="h-9 w-auto sm:h-10"
             priority
           />

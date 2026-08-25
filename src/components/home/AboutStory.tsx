@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function AboutStory() {
   return (
     <section id="nosotros" className="px-6 py-24 sm:px-10 lg:py-32">
       <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        <div className="flex flex-col gap-6">
+        <Reveal className="flex flex-col gap-6">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold">
             Somos Fotos Freedom
           </span>
@@ -21,9 +22,9 @@ export function AboutStory() {
           <Button href="#contacto" variant="primary" className="w-fit">
             Conocer más sobre nosotros
           </Button>
-        </div>
+        </Reveal>
 
-        <div className="relative aspect-video overflow-hidden rounded-2xl border border-border">
+        <Reveal delay={150} className="relative aspect-video overflow-hidden rounded-2xl border border-border">
           <Image
             src="/images/sobre-nosotros.jpg"
             alt="Detrás de escena de Freedom Fotografía"
@@ -47,7 +48,7 @@ export function AboutStory() {
               </svg>
             </span>
           </button>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
