@@ -56,10 +56,11 @@ export const services = [
   },
   {
     slug: "total-pics",
-    title: "Total Pics",
+    title: "QR Party",
+    subtitle: "By Total Pics",
     description:
       "QR en la fiesta: tus invitados suben fotos, se ven en pantalla en vivo y quedan guardadas en un Drive para vos.",
-    image: null,
+    image: "/images/servicio-qr-party.jpg",
   },
 ];
 

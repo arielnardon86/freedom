@@ -128,8 +128,15 @@ export function Services() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-colors group-hover:from-black/90" />
                   <span className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-300 group-hover:border-gold/40" />
-                  <span className="relative px-3 pb-4 text-center text-xs font-semibold uppercase tracking-[0.1em] text-foreground sm:text-sm">
-                    {service.title}
+                  <span className="relative flex flex-col px-3 pb-4 text-center">
+                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-foreground sm:text-sm">
+                      {service.title}
+                    </span>
+                    {service.subtitle ? (
+                      <span className="mt-0.5 text-[0.6rem] uppercase tracking-[0.1em] text-gold/80">
+                        {service.subtitle}
+                      </span>
+                    ) : null}
                   </span>
                 </div>
               </Reveal>
