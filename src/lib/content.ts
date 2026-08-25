@@ -54,6 +54,13 @@ export const services = [
     description: "Foto y film juntos, para revivir el evento como fue.",
     image: "/images/servicio-foto-video.jpg",
   },
+  {
+    slug: "total-pics",
+    title: "Total Pics",
+    description:
+      "QR en la fiesta: tus invitados suben fotos, se ven en pantalla en vivo y quedan guardadas en un Drive para vos.",
+    image: null,
+  },
 ];
 
 export const galleries = [

@@ -65,12 +65,27 @@ function CameraIcon({ className }: IconProps) {
   );
 }
 
+function QRIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="14.5" y="14.5" width="2.5" height="2.5" fill="currentColor" />
+      <rect x="18.5" y="14.5" width="2.5" height="2.5" fill="currentColor" />
+      <rect x="14.5" y="18.5" width="2.5" height="2.5" fill="currentColor" />
+      <rect x="18.5" y="18.5" width="2.5" height="2.5" fill="currentColor" />
+    </svg>
+  );
+}
+
 const serviceIcons: Record<string, (props: IconProps) => React.ReactElement> = {
   bodas: RingsIcon,
   egresados: CapIcon,
   eventos: PartyIcon,
   empresas: BriefcaseIcon,
   "fotografia-video": CameraIcon,
+  "total-pics": QRIcon,
 };
 
 export function Services() {
@@ -85,7 +100,7 @@ export function Services() {
           />
         </Reveal>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
           {services.map((service, index) => {
             const Icon = serviceIcons[service.slug];
             return (
