@@ -22,19 +22,19 @@ export const services = [
     slug: "bodas",
     title: "Bodas",
     description: "Cobertura completa de tu casamiento, de principio a fin.",
-    image: "/images/quince-01.jpg",
+    image: null,
   },
   {
     slug: "15-anos",
     title: "15 Años",
     description: "Sesiones y cobertura de fiesta para el día que soñaste.",
-    image: "/images/quince-02.jpg",
+    image: "/images/servicio-15-anos.jpg",
   },
   {
     slug: "egresados",
     title: "Egresados",
     description: "La fiesta de egresados capturada como se vive: a full.",
-    image: "/images/quince-03.jpg",
+    image: null,
   },
   {
     slug: "eventos",
@@ -58,28 +58,28 @@ export const services = [
 
 export const galleries = [
   {
-    slug: "sofia-15",
-    title: "15 de Sofía",
-    date: "Julio 2026",
-    image: "/images/quince-02.jpg",
+    slug: "15-ambar",
+    title: "15 de Ámbar",
+    date: "Marzo 2026",
+    image: "/images/galeria-ambar.jpg",
   },
   {
-    slug: "camila-martin",
-    title: "Boda de Camila & Martín",
-    date: "Junio 2026",
-    image: null,
-  },
-  {
-    slug: "promo-2026-itc",
-    title: "Promo 2026 - Colegio ITC",
+    slug: "15-cande",
+    title: "15 de Cande",
     date: "Mayo 2026",
-    image: null,
+    image: "/images/galeria-cande.jpg",
   },
   {
-    slug: "cumple-tomas",
-    title: "Cumple de Tomás",
-    date: "Abril 2026",
-    image: "/images/quince-03.jpg",
+    slug: "15-pia",
+    title: "15 de Pía",
+    date: "Junio 2026",
+    image: "/images/galeria-pia.jpg",
+  },
+  {
+    slug: "15-martina",
+    title: "15 de Martina",
+    date: "Julio 2026",
+    image: "/images/galeria-marti.jpg",
   },
 ];
 
@@ -111,12 +111,12 @@ export const instagramHandle = "@fotos_freedom";
 export const instagramUrl = "https://instagram.com/fotos_freedom";
 
 export const instagramImages = [
-  "/images/quince-01.jpg",
-  "/images/quince-02.jpg",
-  "/images/quince-03.jpg",
-  "/images/quince-01.jpg",
-  "/images/quince-02.jpg",
-  "/images/quince-03.jpg",
+  "/images/insta-1.jpg",
+  "/images/insta-2.jpg",
+  "/images/insta-3.jpg",
+  "/images/insta-4.jpg",
+  "/images/insta-5.jpg",
+  "/images/insta-6.jpg",
 ];
 
 export const contact = {

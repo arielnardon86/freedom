@@ -5,11 +5,11 @@ export function Hero() {
   return (
     <section id="inicio" className="relative flex min-h-[100svh] items-center overflow-hidden">
       <Image
-        src="/images/quince-01.jpg"
+        src="/images/hero-15-anos.jpg"
         alt="Sesión de fotos de Freedom Fotografía"
         fill
         priority
-        className="object-cover object-[50%_20%]"
+        className="object-cover object-[50%_15%]"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />

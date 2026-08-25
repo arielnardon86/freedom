@@ -25,7 +25,7 @@ export function AboutStory() {
 
         <div className="relative aspect-video overflow-hidden rounded-2xl border border-border">
           <Image
-            src="/images/quince-03.jpg"
+            src="/images/sobre-nosotros.jpg"
             alt="Detrás de escena de Freedom Fotografía"
             fill
             sizes="(min-width: 1024px) 46vw, 90vw"
