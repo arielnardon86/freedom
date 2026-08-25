@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer id="contacto" className="border-t border-border bg-background-elevated">
       <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 sm:px-10 md:grid-cols-3">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col items-start gap-4">
           <Image
             src="/images/logo-freedom-wordmark.png"
             alt="Freedom Fotografía"

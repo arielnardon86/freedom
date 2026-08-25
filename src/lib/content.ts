@@ -40,7 +40,7 @@ export const services = [
     slug: "eventos",
     title: "Eventos",
     description: "Cumpleaños, aniversarios y celebraciones familiares.",
-    image: null,
+    image: "/images/servicio-eventos.jpg",
   },
   {
     slug: "empresas",
@@ -52,7 +52,7 @@ export const services = [
     slug: "fotografia-video",
     title: "Fotografía y Video",
     description: "Foto y film juntos, para revivir el evento como fue.",
-    image: null,
+    image: "/images/servicio-foto-video.jpg",
   },
 ];
 
