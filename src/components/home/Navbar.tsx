@@ -26,7 +26,7 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-        <Link href="#inicio" className="flex items-center">
+        <Link href="/#inicio" className="flex items-center">
           <Image
             src="/images/logo-freedom-wordmark.png"
             alt="Freedom Fotografía"
@@ -57,7 +57,7 @@ export function Navbar() {
           >
             Ingresar
           </Link>
-          <Button href="#contacto" variant="primary" className="px-6 py-3 text-[0.72rem]">
+          <Button href="/#contacto" variant="primary" className="px-6 py-3 text-[0.72rem]">
             Reservar Fecha
           </Button>
         </div>
@@ -104,7 +104,7 @@ export function Navbar() {
           </ul>
           <div className="mt-6 flex flex-col gap-3">
             <Button
-              href="#contacto"
+              href="/#contacto"
               variant="primary"
               className="w-full"
               onClick={() => setOpen(false)}

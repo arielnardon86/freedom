@@ -2,12 +2,12 @@
 // Reemplazar textos, fechas y fotos por datos reales del cliente.
 
 export const navLinks = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Galerías", href: "#galerias" },
-  { label: "Testimonios", href: "#testimonios" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Inicio", href: "/#inicio" },
+  { label: "Nosotros", href: "/#nosotros" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Galerías", href: "/galerias" },
+  { label: "Testimonios", href: "/#testimonios" },
+  { label: "Contacto", href: "/#contacto" },
 ];
 
 export const stats = [
@@ -22,7 +22,7 @@ export const services = [
     slug: "bodas",
     title: "Bodas",
     description: "Cobertura completa de tu casamiento, de principio a fin.",
-    image: null,
+    image: "/images/bodas-1.jpg",
   },
   {
     slug: "15-anos",
@@ -34,7 +34,7 @@ export const services = [
     slug: "egresados",
     title: "Egresados",
     description: "La fiesta de egresados capturada como se vive: a full.",
-    image: null,
+    image: "/images/egresados-1.jpg",
   },
   {
     slug: "eventos",
@@ -46,7 +46,7 @@ export const services = [
     slug: "empresas",
     title: "Empresas",
     description: "Cobertura corporativa: lanzamientos, congresos y más.",
-    image: null,
+    image: "/images/empresas-3.jpg",
   },
   {
     slug: "fotografia-video",
@@ -66,22 +66,86 @@ export const services = [
 
 export const galleries = [
   {
-    slug: "15-ambar",
-    title: "15 de Ámbar",
-    date: "Marzo 2026",
+    slug: "15-anos",
+    title: "15 Años",
+    date: "Fiestas y sesiones",
     image: "/images/galeria-ambar.jpg",
   },
   {
-    slug: "15-cande",
-    title: "15 de Cande",
-    date: "Mayo 2026",
-    image: "/images/galeria-cande.jpg",
+    slug: "bodas",
+    title: "Bodas",
+    date: "Casamientos",
+    image: "/images/bodas-1.jpg",
   },
   {
-    slug: "15-pia",
-    title: "15 de Pía",
-    date: "Junio 2026",
-    image: "/images/galeria-pia.jpg",
+    slug: "egresados",
+    title: "Egresados",
+    date: "Fiestas de egresados",
+    image: "/images/egresados-1.jpg",
+  },
+  {
+    slug: "empresas",
+    title: "Empresas",
+    date: "Cobertura corporativa",
+    image: "/images/empresas-3.jpg",
+  },
+];
+
+export const galeriaCategorias = [
+  {
+    slug: "15-anos",
+    title: "15 Años",
+    description:
+      "Sesiones y coberturas de fiesta para el día que soñaste, de principio a fin.",
+    photos: [
+      "/images/hero-15-anos.jpg",
+      "/images/galeria-ambar.jpg",
+      "/images/galeria-cande.jpg",
+      "/images/galeria-pia.jpg",
+      "/images/servicio-15-anos.jpg",
+      "/images/insta-1.jpg",
+    ],
+  },
+  {
+    slug: "bodas",
+    title: "Bodas",
+    description:
+      "Cobertura completa de tu casamiento, de los preparativos a la última bailada.",
+    photos: [
+      "/images/bodas-1.jpg",
+      "/images/bodas-2.jpg",
+      "/images/bodas-3.jpg",
+      "/images/bodas-4.jpg",
+      "/images/bodas-5.jpg",
+      "/images/bodas-6.jpg",
+    ],
+  },
+  {
+    slug: "egresados",
+    title: "Egresados",
+    description: "La fiesta de egresados capturada como se vive: a full.",
+    photos: [
+      "/images/egresados-1.jpg",
+      "/images/egresados-2.jpg",
+      "/images/egresados-3.jpg",
+      "/images/egresados-4.jpg",
+      "/images/egresados-5.jpg",
+      "/images/egresados-6.jpg",
+    ],
+  },
+  {
+    slug: "empresas",
+    title: "Empresas y Corporativo",
+    description:
+      "Lanzamientos, eventos de marca y cobertura corporativa con mirada profesional.",
+    photos: [
+      "/images/empresas-3.jpg",
+      "/images/empresas-4.jpg",
+      "/images/empresas-2.jpg",
+      "/images/empresas-1.jpg",
+      "/images/empresas-5.jpg",
+      "/images/empresas-6.jpg",
+    ],
   },
 ];
 
