@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { navLinks } from "@/lib/content";
+import { contact, navLinks } from "@/lib/content";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -57,7 +57,13 @@ export function Navbar() {
           >
             Ingresar
           </Link>
-          <Button href="/#contacto" variant="primary" className="px-6 py-3 text-[0.72rem]">
+          <Button
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            variant="primary"
+            className="px-6 py-3 text-[0.72rem]"
+          >
             Reservar Fecha
           </Button>
         </div>
@@ -104,7 +110,9 @@ export function Navbar() {
           </ul>
           <div className="mt-6 flex flex-col gap-3">
             <Button
-              href="/#contacto"
+              href={contact.whatsapp}
+              target="_blank"
+              rel="noreferrer"
               variant="primary"
               className="w-full"
               onClick={() => setOpen(false)}

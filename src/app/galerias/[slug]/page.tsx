@@ -40,10 +40,10 @@ export default async function GaleriaCategoriaPage({ params }: PageProps) {
         <section className="px-6 pt-28 pb-16 sm:px-10 lg:pt-36">
           <div className="mx-auto flex max-w-6xl flex-col gap-6">
             <Link
-              href="/galerias"
+              href="/#servicios"
               className="text-xs font-medium uppercase tracking-[0.12em] text-muted transition-colors hover:text-gold"
             >
-              ← Todas las galerías
+              ← Volver a servicios
             </Link>
             <Reveal>
               <SectionHeading

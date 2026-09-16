@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { contact } from "@/lib/content";
 
 export function Hero() {
   return (
@@ -35,11 +36,8 @@ export function Hero() {
         </p>
 
         <div className="mt-3 flex flex-wrap items-center gap-4">
-          <Button href="#contacto" variant="primary">
+          <Button href={contact.whatsapp} target="_blank" rel="noreferrer" variant="primary">
             Reservar Fecha
-          </Button>
-          <Button href="#nosotros" variant="outline">
-            Ver Video
           </Button>
         </div>
       </div>
