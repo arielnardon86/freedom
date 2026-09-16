@@ -1,8 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { services } from "@/lib/content";
+import { services, galeriaCategorias } from "@/lib/content";
+
+const gallerySlugs = new Set(galeriaCategorias.map((categoria) => categoria.slug));
 
 type IconProps = { className?: string };
 
@@ -103,42 +106,54 @@ export function Services() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
           {services.map((service, index) => {
             const Icon = serviceIcons[service.slug];
+            const hasGallery = gallerySlugs.has(service.slug);
+            const cardClassName =
+              "group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-xl border border-border";
+            const cardContent = (
+              <>
+                {service.image ? (
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(min-width: 1024px) 16vw, (min-width: 640px) 30vw, 45vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-br from-background-elevated via-background-soft to-background" />
+                    {Icon ? (
+                      <div className="absolute inset-0 flex items-center justify-center pb-8">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/25 text-gold/70 transition-colors duration-300 group-hover:border-gold/60 group-hover:text-gold">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                      </div>
+                    ) : null}
+                  </>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-colors group-hover:from-black/90" />
+                <span className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-300 group-hover:border-gold/40" />
+                <span className="relative flex flex-col px-3 pb-4 text-center">
+                  <span className="text-xs font-semibold uppercase tracking-[0.1em] text-foreground sm:text-sm">
+                    {service.title}
+                  </span>
+                  {service.subtitle ? (
+                    <span className="mt-0.5 text-[0.6rem] uppercase tracking-[0.1em] text-gold/80">
+                      {service.subtitle}
+                    </span>
+                  ) : null}
+                </span>
+              </>
+            );
             return (
               <Reveal key={service.slug} delay={index * 80}>
-                <div className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-xl border border-border">
-                  {service.image ? (
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      sizes="(min-width: 1024px) 16vw, (min-width: 640px) 30vw, 45vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <>
-                      <div className="absolute inset-0 bg-gradient-to-br from-background-elevated via-background-soft to-background" />
-                      {Icon ? (
-                        <div className="absolute inset-0 flex items-center justify-center pb-8">
-                          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/25 text-gold/70 transition-colors duration-300 group-hover:border-gold/60 group-hover:text-gold">
-                            <Icon className="h-5 w-5" />
-                          </span>
-                        </div>
-                      ) : null}
-                    </>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-colors group-hover:from-black/90" />
-                  <span className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-300 group-hover:border-gold/40" />
-                  <span className="relative flex flex-col px-3 pb-4 text-center">
-                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-foreground sm:text-sm">
-                      {service.title}
-                    </span>
-                    {service.subtitle ? (
-                      <span className="mt-0.5 text-[0.6rem] uppercase tracking-[0.1em] text-gold/80">
-                        {service.subtitle}
-                      </span>
-                    ) : null}
-                  </span>
-                </div>
+                {hasGallery ? (
+                  <Link href={`/galerias/${service.slug}`} className={cardClassName}>
+                    {cardContent}
+                  </Link>
+                ) : (
+                  <div className={cardClassName}>{cardContent}</div>
+                )}
               </Reveal>
             );
           })}

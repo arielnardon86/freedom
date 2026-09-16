@@ -64,33 +64,6 @@ export const services = [
   },
 ];
 
-export const galleries = [
-  {
-    slug: "15-anos",
-    title: "15 Años",
-    date: "Fiestas y sesiones",
-    image: "/images/galeria-ambar.jpg",
-  },
-  {
-    slug: "bodas",
-    title: "Bodas",
-    date: "Casamientos",
-    image: "/images/bodas-1.jpg",
-  },
-  {
-    slug: "egresados",
-    title: "Egresados",
-    date: "Fiestas de egresados",
-    image: "/images/egresados-1.jpg",
-  },
-  {
-    slug: "empresas",
-    title: "Empresas",
-    date: "Cobertura corporativa",
-    image: "/images/empresas-3.jpg",
-  },
-];
-
 export const galeriaCategorias = [
   {
     slug: "15-anos",
