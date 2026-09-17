@@ -33,21 +33,6 @@ export function AboutStory() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black/35" />
-          <button
-            type="button"
-            aria-label="Ver video de presentación"
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <span className="flex h-16 w-16 items-center justify-center rounded-full border border-gold-light/60 bg-background/60 backdrop-blur-sm transition-transform hover:scale-105 sm:h-20 sm:w-20">
-              <svg
-                viewBox="0 0 24 24"
-                className="ml-1 h-6 w-6 fill-gold sm:h-7 sm:w-7"
-                aria-hidden="true"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-          </button>
         </Reveal>
       </div>
     </section>
