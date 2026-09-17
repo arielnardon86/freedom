@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function AboutStory() {
@@ -8,20 +7,22 @@ export function AboutStory() {
       <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <Reveal className="flex flex-col gap-6">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold">
-            Somos Fotos Freedom
+            ¿Quiénes somos?
           </span>
           <h2 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
             Contamos historias que se sienten.
           </h2>
           <p className="text-[0.95rem] leading-relaxed text-muted">
-            Más que fotógrafos, somos parte del recuerdo. Nos apasiona capturar
-            emociones auténticas en cada instante de tu evento, para que cada foto te
-            devuelva justo a como se sintió vivirlo. Recorré el sitio y conocé nuestro
-            trabajo.
+            Somos Freedom, una productora de fotografía y video con más de 10 años
+            de trayectoria. Nacimos de una pasión por la imagen y fuimos creciendo
+            junto a cada persona, familia, empresa y evento que confió en nosotros.
           </p>
-          <Button href="#contacto" variant="primary" className="w-fit">
-            Conocer más sobre nosotros
-          </Button>
+          <p className="text-[0.95rem] leading-relaxed text-muted">
+            Hoy somos mucho más que fotografía: combinamos experiencia, creatividad,
+            tecnología y una mirada propia para crear contenido y capturar momentos
+            de una manera diferente. No solamente registramos lo que sucede: lo
+            vivimos, lo producimos y lo contamos.
+          </p>
         </Reveal>
 
         <Reveal delay={150} className="relative aspect-video overflow-hidden rounded-2xl border border-border">

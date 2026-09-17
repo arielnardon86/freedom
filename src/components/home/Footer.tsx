@@ -15,8 +15,8 @@ export function Footer() {
             className="h-10 w-auto"
           />
           <p className="max-w-xs text-sm leading-relaxed text-muted">
-            Fotografía y video de bodas, 15 años, egresos y eventos en Córdoba y
-            alrededores.
+            Fotografía, video y producción audiovisual. Con base en Villa Carlos
+            Paz, viajamos a donde esté tu historia.
           </p>
         </div>
 

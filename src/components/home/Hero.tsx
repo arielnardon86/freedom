@@ -19,25 +19,30 @@ export function Hero() {
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-7 px-6 pt-24 pb-20 sm:px-10 lg:pt-32">
         <span className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-gold">
           <span className="h-px w-10 bg-gold-dark" />
-          Fotografía &amp; video de eventos
+          Fotografía • Video • Producción Audiovisual
         </span>
 
         <h1 className="max-w-2xl font-display text-5xl leading-[1.05] font-semibold text-foreground sm:text-6xl md:text-7xl">
-          Cada foto
+          Viví el momento.
           <br />
-          cuenta{" "}
+          Nosotros hacemos que{" "}
           <span className="font-script text-gold text-6xl font-normal sm:text-7xl md:text-8xl">
-            una historia
+            dure para siempre
           </span>
         </h1>
 
         <p className="max-w-md text-base leading-relaxed text-muted sm:text-lg">
-          Capturamos momentos únicos para que los recuerdes toda la vida.
+          Creamos experiencias, capturamos emociones y contamos historias a través
+          de la fotografía y el video. Más de 10 años acompañando momentos que
+          merecen ser recordados.
         </p>
 
         <div className="mt-3 flex flex-wrap items-center gap-4">
+          <Button href="#servicios" variant="outline">
+            Ver Nuestros Trabajos
+          </Button>
           <Button href={contact.whatsapp} target="_blank" rel="noreferrer" variant="primary">
-            Reservar Fecha
+            Consultar por WhatsApp
           </Button>
         </div>
       </div>

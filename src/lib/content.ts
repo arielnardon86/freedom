@@ -158,8 +158,179 @@ export const instagramImages = [
 ];
 
 export const contact = {
-  whatsapp: "https://wa.me/5493510000000",
+  whatsapp: "https://wa.me/5493541376821",
   instagram: instagramUrl,
-  email: "hola@fotosfreedom.com",
-  location: "Córdoba, Argentina",
+  email: "sergiovcp18@gmail.com",
+  location: "Villa Carlos Paz, Córdoba, Argentina",
 };
+
+export function whatsappLink(message: string) {
+  return `${contact.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+export const diferenciales = [
+  {
+    title: "Fotografía y Video",
+    description:
+      "Capturamos los momentos importantes y también esos pequeños detalles que muchas veces pasan desapercibidos.",
+  },
+  {
+    title: "Producción",
+    description:
+      "No nos limitamos a documentar. Pensamos cómo producir contenido que tenga impacto y personalidad.",
+  },
+  {
+    title: "Contenido en Tiempo Real",
+    description:
+      "Durante el evento generamos Stories, videos y momentos espontáneos para vivir la experiencia también en Instagram esa misma noche.",
+  },
+  {
+    title: "Galería Online Personalizada",
+    description:
+      "Vos y tus invitados acceden a las fotografías desde un link: las ven, les dan Me Gusta, las descargan y las comparten.",
+  },
+  {
+    title: "Entrevistas y Trends",
+    description:
+      "Creamos entrevistas con protagonistas e invitados, trends y propuestas para Reels adaptadas a cada evento.",
+  },
+  {
+    title: "Tecnología",
+    description:
+      "Fotografía, video, iluminación, drone y herramientas digitales según las necesidades del proyecto.",
+  },
+];
+
+export const contenidoEnRedes = [
+  "Stories durante el evento",
+  "Reels",
+  "Trends",
+  "Entrevistas",
+  "Contenido espontáneo",
+  "Videos detrás de escena",
+  "Colaboraciones",
+  "Contenido con protagonistas e invitados",
+];
+
+export const galeriaOnlineFeatures = [
+  "Ver las fotografías desde cualquier dispositivo",
+  "Dar Me Gusta a tus favoritas",
+  "Descargar las imágenes",
+  "Compartirlas con quien quieras",
+  "Invitar a familiares y amigos",
+  "Volver a disfrutar cada momento cuando quieras",
+];
+
+export const proceso = [
+  {
+    step: "01",
+    title: "Nos conocemos",
+    description: "Escuchamos tu idea y entendemos qué estás buscando.",
+  },
+  {
+    step: "02",
+    title: "Planificamos",
+    description: "Pensamos la cobertura y los recursos necesarios.",
+  },
+  {
+    step: "03",
+    title: "Producimos",
+    description: "Preparamos equipo y propuesta creativa.",
+  },
+  {
+    step: "04",
+    title: "Vivimos el momento",
+    description: "Vos disfrutás; nosotros buscamos cada emoción y detalle.",
+  },
+  {
+    step: "05",
+    title: "Editamos",
+    description: "Seleccionamos y editamos cuidadosamente el material.",
+  },
+  {
+    step: "06",
+    title: "Entregamos",
+    description:
+      "Recibís tus recuerdos en formatos pensados para disfrutar y compartir.",
+  },
+  {
+    step: "07",
+    title: "Volvés a vivirlo",
+    description:
+      "Fotografías, videos y galería online para revivir la experiencia.",
+  },
+];
+
+export const valores = [
+  {
+    title: "Libertad",
+    description: "Libertad para imaginar, crear y hacer las cosas de una manera diferente.",
+  },
+  { title: "Creatividad", description: "Nuevas formas de contar historias." },
+  { title: "Profesionalismo", description: "Responsabilidad, planificación y dedicación." },
+  { title: "Innovación", description: "Nuevas herramientas, formatos y tendencias." },
+  { title: "Cercanía", description: "Trabajamos con personas, no solamente con clientes." },
+  { title: "Compromiso", description: "Nos involucramos con cada proyecto." },
+  {
+    title: "Emoción",
+    description: "Una buena imagen también tiene que transmitir algo.",
+  },
+];
+
+export const porQueElegirnos = [
+  "+10 años de experiencia",
+  "Fotografía + Video + Producción",
+  "Contenido para redes en tiempo real",
+  "Galería online personalizada",
+  "Reels, trends y entrevistas",
+  "Drone y tecnología audiovisual",
+  "Cobertura integral",
+  "Atención personalizada",
+  "Nos trasladamos a diferentes destinos",
+  "Una mirada creativa y propia",
+];
+
+export const marcaPalabras = [
+  "Creatividad",
+  "Energía",
+  "Libertad",
+  "Experiencia",
+  "Emoción",
+  "Innovación",
+];
+
+export const faqs = [
+  {
+    question: "¿Dónde trabajan?",
+    answer:
+      "Estamos ubicados en Villa Carlos Paz, Córdoba, y realizamos producciones en diferentes localidades y destinos.",
+  },
+  {
+    question: "¿Trabajan solamente en eventos?",
+    answer:
+      "No. También realizamos producción audiovisual, contenido para redes, fotografía comercial, entrevistas y proyectos especiales.",
+  },
+  {
+    question: "¿Realizan fotografía y video?",
+    answer: "Sí. Podemos trabajar fotografía, video o una propuesta integral.",
+  },
+  {
+    question: "¿Trabajan con drone?",
+    answer: "Sí, dependiendo de las características y condiciones del proyecto.",
+  },
+  {
+    question: "¿Entregan las fotografías online?",
+    answer:
+      "Sí. Podemos ofrecer una galería online personalizada para ver, seleccionar, descargar y compartir fotografías.",
+  },
+  {
+    question: "¿Generan contenido durante el evento?",
+    answer:
+      "Sí. Según el servicio contratado podemos generar Stories, Reels, trends, entrevistas y otros contenidos.",
+  },
+  {
+    question: "¿Cuánto cuesta contratar Freedom?",
+    answer:
+      "El valor depende del tipo de evento y los servicios incluidos. Contactanos y armamos una propuesta.",
+  },
+];
