@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { galeriaOnlineFeatures, whatsappLink } from "@/lib/content";
+import { galeriaOnlineFeatures } from "@/lib/content";
 
 function CheckIcon() {
   return (
@@ -43,16 +42,6 @@ export function OnlineGallery() {
               </li>
             ))}
           </ul>
-
-          <Button
-            href={whatsappLink("Hola! Quiero ver un ejemplo de la galería online.")}
-            target="_blank"
-            rel="noreferrer"
-            variant="outline"
-            className="w-fit"
-          >
-            Ver Ejemplo de Galería
-          </Button>
         </Reveal>
       </div>
     </section>
