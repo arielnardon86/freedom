@@ -33,13 +33,7 @@ export const services = [
     slug: "egresados",
     title: "Egresados",
     description: "La fiesta de egresados capturada como se vive: a full.",
-    image: "/images/egresados-1.jpg",
-  },
-  {
-    slug: "eventos",
-    title: "Eventos",
-    description: "Cumpleaños, aniversarios y celebraciones familiares.",
-    image: "/images/servicio-eventos.jpg",
+    image: "/images/egresados-camperas-1.jpg",
   },
   {
     slug: "empresas",
@@ -51,7 +45,7 @@ export const services = [
     slug: "moda",
     title: "Moda",
     description: "Producciones de moda, books y desfiles con una mirada editorial.",
-    image: "/images/moda-1.jpg",
+    image: "/images/moda-celebridades-1.jpg",
   },
   {
     slug: "gastronomia",
@@ -76,12 +70,6 @@ export const services = [
     title: "Drone",
     description: "Tomas aéreas que suman una perspectiva única a tu evento.",
     image: "/images/drone-1.jpg",
-  },
-  {
-    slug: "fotografia-video",
-    title: "Fotografía y Video",
-    description: "Foto y film juntos, para revivir el evento como fue.",
-    image: "/images/servicio-foto-video.jpg",
   },
   {
     slug: "total-pics",
@@ -114,6 +102,10 @@ type GaleriaCategoria =
       photos?: undefined;
     };
 
+function photoSet(prefix: string, count: number) {
+  return Array.from({ length: count }, (_, i) => `/images/${prefix}-${i + 1}.jpg`);
+}
+
 export const galeriaCategorias: GaleriaCategoria[] = [
   {
     slug: "15-anos",
@@ -121,28 +113,8 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     description:
       "Sesiones y coberturas de fiesta para el día que soñaste, de principio a fin.",
     subcategorias: [
-      {
-        title: "Previa",
-        photos: [
-          "/images/hero-15-anos.jpg",
-          "/images/galeria-ambar.jpg",
-          "/images/galeria-cande.jpg",
-          "/images/galeria-pia.jpg",
-          "/images/servicio-15-anos.jpg",
-          "/images/insta-1.jpg",
-        ],
-      },
-      {
-        title: "Fiesta",
-        photos: [
-          "/images/quince-fiesta-1.jpg",
-          "/images/quince-fiesta-2.jpg",
-          "/images/quince-fiesta-3.jpg",
-          "/images/quince-fiesta-4.jpg",
-          "/images/quince-fiesta-5.jpg",
-          "/images/quince-fiesta-6.jpg",
-        ],
-      },
+      { title: "Previa", photos: photoSet("quince-previa", 71) },
+      { title: "Fiesta", photos: photoSet("quince-fiesta", 61) },
     ],
   },
   {
@@ -151,28 +123,8 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     description:
       "Cobertura completa de tu casamiento, de los preparativos a la última bailada.",
     subcategorias: [
-      {
-        title: "Civil",
-        photos: [
-          "/images/bodas-civil-1.jpg",
-          "/images/bodas-civil-2.jpg",
-          "/images/bodas-civil-3.jpg",
-          "/images/bodas-civil-4.jpg",
-          "/images/bodas-civil-5.jpg",
-          "/images/bodas-civil-6.jpg",
-        ],
-      },
-      {
-        title: "Fiesta",
-        photos: [
-          "/images/bodas-fiesta-1.jpg",
-          "/images/bodas-fiesta-2.jpg",
-          "/images/bodas-fiesta-3.jpg",
-          "/images/bodas-fiesta-4.jpg",
-          "/images/bodas-fiesta-5.jpg",
-          "/images/bodas-fiesta-6.jpg",
-        ],
-      },
+      { title: "Civil", photos: photoSet("bodas-civil", 34) },
+      { title: "Fiesta", photos: photoSet("bodas-fiesta", 89) },
     ],
   },
   {
@@ -180,39 +132,9 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     title: "Egresados",
     description: "La fiesta de egresados capturada como se vive: a full.",
     subcategorias: [
-      {
-        title: "Presentación de Camperas",
-        photos: [
-          "/images/egresados-1.jpg",
-          "/images/egresados-2.jpg",
-          "/images/egresados-3.jpg",
-          "/images/egresados-4.jpg",
-          "/images/egresados-5.jpg",
-          "/images/egresados-6.jpg",
-        ],
-      },
-      {
-        title: "Cena de Egresados",
-        photos: [
-          "/images/egresados-cena-1.jpg",
-          "/images/egresados-cena-2.jpg",
-          "/images/egresados-cena-3.jpg",
-          "/images/egresados-cena-4.jpg",
-          "/images/egresados-cena-5.jpg",
-          "/images/egresados-cena-6.jpg",
-        ],
-      },
-      {
-        title: "Entrega de Diploma",
-        photos: [
-          "/images/egresados-diploma-1.jpg",
-          "/images/egresados-diploma-2.jpg",
-          "/images/egresados-diploma-3.jpg",
-          "/images/egresados-diploma-4.jpg",
-          "/images/egresados-diploma-5.jpg",
-          "/images/egresados-diploma-6.jpg",
-        ],
-      },
+      { title: "Presentación de Camperas", photos: photoSet("egresados-camperas", 46) },
+      { title: "Cena de Egresados", photos: photoSet("egresados-cena", 131) },
+      { title: "Entrega de Diploma", photos: photoSet("egresados-diploma", 21) },
     ],
   },
   {
@@ -220,27 +142,16 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     title: "Empresas y Corporativo",
     description:
       "Lanzamientos, eventos de marca y cobertura corporativa con mirada profesional.",
-    photos: [
-      "/images/empresas-3.jpg",
-      "/images/empresas-4.jpg",
-      "/images/empresas-2.jpg",
-      "/images/empresas-1.jpg",
-      "/images/empresas-5.jpg",
-      "/images/empresas-6.jpg",
-    ],
+    photos: photoSet("empresas-institucional", 34),
   },
   {
     slug: "moda",
     title: "Moda",
     description:
       "Producciones de moda, desfiles y books de marca con una mirada editorial.",
-    photos: [
-      "/images/moda-1.jpg",
-      "/images/moda-2.jpg",
-      "/images/moda-3.jpg",
-      "/images/moda-4.jpg",
-      "/images/moda-5.jpg",
-      "/images/moda-6.jpg",
+    subcategorias: [
+      { title: "Moda y Celebridades", photos: photoSet("moda-celebridades", 35) },
+      { title: "Indumentaria", photos: photoSet("moda-indumentaria", 44) },
     ],
   },
   {
@@ -248,53 +159,25 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     title: "Gastronomía",
     description:
       "Fotografía para bares, restaurantes y eventos gastronómicos.",
-    photos: [
-      "/images/gastronomia-1.jpg",
-      "/images/gastronomia-2.jpg",
-      "/images/gastronomia-3.jpg",
-      "/images/gastronomia-4.jpg",
-      "/images/gastronomia-5.jpg",
-      "/images/gastronomia-6.jpg",
-    ],
+    photos: photoSet("gastronomia", 37),
   },
   {
     slug: "books",
     title: "Books",
     description: "Sesiones personales para tener fotos profesionales tuyas.",
-    photos: [
-      "/images/books-1.jpg",
-      "/images/books-2.jpg",
-      "/images/books-3.jpg",
-      "/images/books-4.jpg",
-      "/images/books-5.jpg",
-      "/images/books-6.jpg",
-    ],
+    photos: photoSet("books", 53),
   },
   {
     slug: "inmobiliarias",
     title: "Inmobiliarias",
     description: "Fotografía de propiedades que resalta cada espacio.",
-    photos: [
-      "/images/inmobiliarias-1.jpg",
-      "/images/inmobiliarias-2.jpg",
-      "/images/inmobiliarias-3.jpg",
-      "/images/inmobiliarias-4.jpg",
-      "/images/inmobiliarias-5.jpg",
-      "/images/inmobiliarias-6.jpg",
-    ],
+    photos: photoSet("inmobiliarias", 35),
   },
   {
     slug: "drone",
     title: "Drone",
     description: "Tomas aéreas que suman una perspectiva única a tu evento.",
-    photos: [
-      "/images/drone-1.jpg",
-      "/images/drone-2.jpg",
-      "/images/drone-3.jpg",
-      "/images/drone-4.jpg",
-      "/images/drone-5.jpg",
-      "/images/drone-6.jpg",
-    ],
+    photos: photoSet("drone", 9),
   },
 ];
 
