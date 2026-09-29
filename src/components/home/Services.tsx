@@ -102,7 +102,7 @@ export function Services() {
           />
         </Reveal>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
           {services.map((service, index) => {
             const Icon = serviceIcons[service.slug];
             const hasGallery = gallerySlugs.has(service.slug);
