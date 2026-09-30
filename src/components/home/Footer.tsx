@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { contact, navLinks } from "@/lib/content";
+import { InstagramIcon, MailIcon, PinIcon, WhatsappIcon, YoutubeIcon } from "@/components/ui/SocialIcons";
 
 export function Footer() {
   return (
@@ -44,21 +45,48 @@ export function Footer() {
           </h3>
           <ul className="flex flex-col gap-2.5 text-sm text-muted">
             <li>
-              <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="hover:text-gold">
+              <a
+                href={contact.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 hover:text-gold"
+              >
+                <WhatsappIcon className="h-4 w-4 flex-none" />
                 WhatsApp
               </a>
             </li>
             <li>
-              <a href={contact.instagram} target="_blank" rel="noreferrer" className="hover:text-gold">
+              <a
+                href={contact.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 hover:text-gold"
+              >
+                <InstagramIcon className="h-4 w-4 flex-none" />
                 Instagram
               </a>
             </li>
             <li>
-              <a href={`mailto:${contact.email}`} className="hover:text-gold">
-                {contact.email}
+              <a
+                href={contact.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 hover:text-gold"
+              >
+                <YoutubeIcon className="h-4 w-4 flex-none" />
+                YouTube
               </a>
             </li>
-            <li>{contact.location}</li>
+            <li>
+              <a href={`mailto:${contact.email}`} className="flex items-center gap-2 hover:text-gold">
+                <MailIcon className="h-4 w-4 flex-none" />
+                Email
+              </a>
+            </li>
+            <li className="flex items-center gap-2">
+              <PinIcon className="h-4 w-4 flex-none" />
+              {contact.location}
+            </li>
           </ul>
         </div>
       </div>

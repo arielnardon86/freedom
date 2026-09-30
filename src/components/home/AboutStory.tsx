@@ -1,5 +1,6 @@
-import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
+import { AboutCarousel } from "@/components/home/AboutCarousel";
+import { sobreNosotrosImages } from "@/lib/content";
 
 export function AboutStory() {
   return (
@@ -26,14 +27,7 @@ export function AboutStory() {
         </Reveal>
 
         <Reveal delay={150} className="relative aspect-video overflow-hidden rounded-2xl border border-border">
-          <Image
-            src="/images/sobre-nosotros.jpg"
-            alt="Detrás de escena de Freedom Fotografía"
-            fill
-            sizes="(min-width: 1024px) 46vw, 90vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-black/35" />
+          <AboutCarousel images={sobreNosotrosImages} />
         </Reveal>
       </div>
     </section>

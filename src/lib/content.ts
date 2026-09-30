@@ -113,8 +113,8 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     description:
       "Sesiones y coberturas de fiesta para el día que soñaste, de principio a fin.",
     subcategorias: [
-      { title: "Previa", photos: photoSet("quince-previa", 71) },
-      { title: "Fiesta", photos: photoSet("quince-fiesta", 61) },
+      { title: "Previa", photos: photoSet("quince-previa", 16) },
+      { title: "Fiesta", photos: photoSet("quince-fiesta", 18) },
     ],
   },
   {
@@ -123,8 +123,8 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     description:
       "Cobertura completa de tu casamiento, de los preparativos a la última bailada.",
     subcategorias: [
-      { title: "Civil", photos: photoSet("bodas-civil", 34) },
-      { title: "Fiesta", photos: photoSet("bodas-fiesta", 89) },
+      { title: "Civil", photos: photoSet("bodas-civil", 16) },
+      { title: "Fiesta", photos: photoSet("bodas-fiesta", 16) },
     ],
   },
   {
@@ -132,9 +132,9 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     title: "Egresados",
     description: "La fiesta de egresados capturada como se vive: a full.",
     subcategorias: [
-      { title: "Presentación de Camperas", photos: photoSet("egresados-camperas", 46) },
-      { title: "Cena de Egresados", photos: photoSet("egresados-cena", 131) },
-      { title: "Entrega de Diploma", photos: photoSet("egresados-diploma", 21) },
+      { title: "Presentación de Camperas", photos: photoSet("egresados-camperas", 26) },
+      { title: "Cena de Egresados", photos: photoSet("egresados-cena", 47) },
+      { title: "Entrega de Diploma", photos: photoSet("egresados-diploma", 19) },
     ],
   },
   {
@@ -142,7 +142,7 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     title: "Empresas y Corporativo",
     description:
       "Lanzamientos, eventos de marca y cobertura corporativa con mirada profesional.",
-    photos: photoSet("empresas-institucional", 34),
+    photos: photoSet("empresas-institucional", 18),
   },
   {
     slug: "moda",
@@ -150,8 +150,8 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     description:
       "Producciones de moda, desfiles y books de marca con una mirada editorial.",
     subcategorias: [
-      { title: "Moda y Celebridades", photos: photoSet("moda-celebridades", 35) },
-      { title: "Indumentaria", photos: photoSet("moda-indumentaria", 44) },
+      { title: "Moda y Celebridades", photos: photoSet("moda-celebridades", 14) },
+      { title: "Indumentaria", photos: photoSet("moda-indumentaria", 34) },
     ],
   },
   {
@@ -159,13 +159,13 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     title: "Gastronomía",
     description:
       "Fotografía para bares, restaurantes y eventos gastronómicos.",
-    photos: photoSet("gastronomia", 37),
+    photos: photoSet("gastronomia", 27),
   },
   {
     slug: "books",
     title: "Books",
     description: "Sesiones personales para tener fotos profesionales tuyas.",
-    photos: photoSet("books", 53),
+    photos: photoSet("books", 16),
   },
   {
     slug: "inmobiliarias",
@@ -177,7 +177,7 @@ export const galeriaCategorias: GaleriaCategoria[] = [
     slug: "drone",
     title: "Drone",
     description: "Tomas aéreas que suman una perspectiva única a tu evento.",
-    photos: photoSet("drone", 9),
+    photos: photoSet("drone", 6),
   },
 ];
 
@@ -205,8 +205,17 @@ export const testimonials = [
   },
 ];
 
+export const sobreNosotrosImages = [
+  "/images/sobre-nosotros-1.jpg",
+  "/images/sobre-nosotros-2.jpg",
+  "/images/sobre-nosotros-3.jpg",
+  "/images/sobre-nosotros-4.jpg",
+  "/images/sobre-nosotros-5.jpg",
+];
+
 export const instagramHandle = "@fotos_freedom";
 export const instagramUrl = "https://instagram.com/fotos_freedom";
+export const youtubeUrl = "https://www.youtube.com/@fotos_freedom";
 
 export const instagramImages = [
   "/images/insta-1.jpg",
@@ -220,6 +229,7 @@ export const instagramImages = [
 export const contact = {
   whatsapp: "https://wa.me/5493541376821",
   instagram: instagramUrl,
+  youtube: youtubeUrl,
   email: "sergiovcp18@gmail.com",
   location: "Villa Carlos Paz, Córdoba, Argentina",
 };
