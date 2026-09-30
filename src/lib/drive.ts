@@ -27,55 +27,80 @@ export type DriveImage = {
   thumbnailLink: string | null;
 };
 
-export async function listDriveImages(folderId: string): Promise<DriveImage[]> {
+export type DriveVideo = DriveImage;
+
+async function listDriveFilesByMime(folderId: string, mimePrefix: string): Promise<DriveImage[]> {
   const apiKey = process.env.GOOGLE_DRIVE_API_KEY;
   if (!apiKey) return [];
 
   const params = new URLSearchParams({
-    q: `'${folderId}' in parents and trashed = false and mimeType contains 'image/'`,
+    q: `'${folderId}' in parents and trashed = false and mimeType contains '${mimePrefix}'`,
     fields: "files(id,name,thumbnailLink)",
     pageSize: "1000",
     key: apiKey,
   });
 
   const response = await fetch(`${DRIVE_API_BASE}?${params.toString()}`, {
-    // Las fotos de un evento no cambian a cada rato; se puede cachear un rato.
+    // Las fotos/videos de un evento no cambian a cada rato; se puede cachear un rato.
     next: { revalidate: 60 },
   });
 
   if (!response.ok) {
-    throw new Error(`No se pudieron listar las fotos de Drive (${response.status}).`);
+    throw new Error(`No se pudo listar el contenido de Drive (${response.status}).`);
   }
 
   const data = (await response.json()) as { files?: DriveImage[] };
   return data.files ?? [];
 }
 
-// Junta las fotos de varias carpetas en una sola lista, sin duplicar si un
+// Junta los archivos de varias carpetas en una sola lista, sin duplicar si un
 // mismo archivo apareciera en más de una carpeta.
-export async function listDriveImagesFromFolders(folderIds: string[]): Promise<DriveImage[]> {
-  const results = await Promise.all(folderIds.map((folderId) => listDriveImages(folderId)));
+async function mergeFromFolders(
+  folderIds: string[],
+  lister: (folderId: string) => Promise<DriveImage[]>,
+): Promise<DriveImage[]> {
+  const results = await Promise.all(folderIds.map(lister));
   const seen = new Set<string>();
   const merged: DriveImage[] = [];
-  for (const photos of results) {
-    for (const photo of photos) {
-      if (seen.has(photo.id)) continue;
-      seen.add(photo.id);
-      merged.push(photo);
+  for (const files of results) {
+    for (const file of files) {
+      if (seen.has(file.id)) continue;
+      seen.add(file.id);
+      merged.push(file);
     }
   }
   return merged;
 }
 
+export function listDriveImages(folderId: string): Promise<DriveImage[]> {
+  return listDriveFilesByMime(folderId, "image/");
+}
+
+export function listDriveImagesFromFolders(folderIds: string[]): Promise<DriveImage[]> {
+  return mergeFromFolders(folderIds, listDriveImages);
+}
+
+export function listDriveVideos(folderId: string): Promise<DriveVideo[]> {
+  return listDriveFilesByMime(folderId, "video/");
+}
+
+export function listDriveVideosFromFolders(folderIds: string[]): Promise<DriveVideo[]> {
+  return mergeFromFolders(folderIds, listDriveVideos);
+}
+
 // Reenvía el archivo desde Route Handlers sin exponer la API key al cliente.
-export async function fetchDriveFileStream(fileId: string) {
+// Si se pasa `range`, lo reenvía tal cual a Drive para poder servir video
+// (seek, reproducción progresiva) igual que un archivo estático.
+export async function fetchDriveFileStream(fileId: string, range?: string | null) {
   const apiKey = process.env.GOOGLE_DRIVE_API_KEY;
   if (!apiKey) throw new Error(DRIVE_NOT_CONFIGURED_MESSAGE);
 
   const params = new URLSearchParams({ alt: "media", key: apiKey });
-  const response = await fetch(`${DRIVE_API_BASE}/${fileId}?${params.toString()}`);
+  const response = await fetch(`${DRIVE_API_BASE}/${fileId}?${params.toString()}`, {
+    headers: range ? { Range: range } : undefined,
+  });
 
-  if (!response.ok) {
+  if (!response.ok && response.status !== 206) {
     throw new Error(`No se pudo descargar el archivo de Drive (${response.status}).`);
   }
 
