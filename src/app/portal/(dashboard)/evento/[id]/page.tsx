@@ -57,7 +57,7 @@ export default async function PortalEventoPage({
         </p>
       </div>
 
-      {event.drive_link ? (
+      {event.drive_links.length > 0 ? (
         <div className="rounded-2xl border border-border bg-background-elevated p-6">
           <h2 className="font-display text-base font-semibold text-foreground">
             Fotos del evento
@@ -66,15 +66,22 @@ export default async function PortalEventoPage({
             Por ahora las fotos se ven en Google Drive. Más adelante vas a poder verlas,
             descargarlas y dejar tus favoritas directo acá.
           </p>
-          <Button
-            href={event.drive_link}
-            variant="primary"
-            className="mt-4 w-fit"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Ver fotos en Google Drive
-          </Button>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {event.drive_links.map((link, index) => (
+              <Button
+                key={link}
+                href={link}
+                variant="primary"
+                className="w-fit"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {event.drive_links.length > 1
+                  ? `Ver fotos en Google Drive (${index + 1})`
+                  : "Ver fotos en Google Drive"}
+              </Button>
+            ))}
+          </div>
         </div>
       ) : (
         <ComingSoon

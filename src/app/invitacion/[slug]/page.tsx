@@ -7,7 +7,7 @@ import { ReviewsSection } from "@/components/invitacion/ReviewsSection";
 import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
 import { Button } from "@/components/ui/Button";
 import { isDatabaseConfigured } from "@/lib/db";
-import { extractDriveFolderId, isDriveConfigured, listDriveImages } from "@/lib/drive";
+import { extractDriveFolderIds, isDriveConfigured, listDriveImagesFromFolders } from "@/lib/drive";
 import type { DriveImage } from "@/lib/drive";
 import { getEventByInviteSlug, getLikeCounts, listApprovedReviews } from "@/lib/queries";
 
@@ -27,15 +27,15 @@ export default async function InvitacionPage({
     notFound();
   }
 
-  const folderId = extractDriveFolderId(event.drive_link);
-  const galleryReady = isDriveConfigured() && Boolean(folderId);
+  const folderIds = extractDriveFolderIds(event.drive_links);
+  const galleryReady = isDriveConfigured() && folderIds.length > 0;
 
   let photos: DriveImage[] = [];
   let galleryError = false;
 
-  if (galleryReady && folderId) {
+  if (galleryReady) {
     try {
-      photos = await listDriveImages(folderId);
+      photos = await listDriveImagesFromFolders(folderIds);
     } catch {
       galleryError = true;
     }

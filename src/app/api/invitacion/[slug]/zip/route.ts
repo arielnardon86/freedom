@@ -3,10 +3,10 @@ import { Readable } from "node:stream";
 import type { ReadableStream as NodeWebReadableStream } from "node:stream/web";
 import { isDatabaseConfigured } from "@/lib/db";
 import {
-  extractDriveFolderId,
+  extractDriveFolderIds,
   fetchDriveFileStream,
   isDriveConfigured,
-  listDriveImages,
+  listDriveImagesFromFolders,
 } from "@/lib/drive";
 import { getEventByInviteSlug } from "@/lib/queries";
 
@@ -26,12 +26,12 @@ export async function GET(
     return new Response("Evento no encontrado", { status: 404 });
   }
 
-  const folderId = extractDriveFolderId(event.drive_link);
-  if (!folderId) {
+  const folderIds = extractDriveFolderIds(event.drive_links);
+  if (folderIds.length === 0) {
     return new Response("Este evento no tiene fotos cargadas", { status: 404 });
   }
 
-  const photos = await listDriveImages(folderId);
+  const photos = await listDriveImagesFromFolders(folderIds);
   if (photos.length === 0) {
     return new Response("Este evento no tiene fotos cargadas", { status: 404 });
   }

@@ -44,7 +44,7 @@ create table events (
   fecha_evento date not null,
   lugar text,
   tipo_evento event_type not null,
-  drive_link text,
+  drive_links text[] not null default '{}',
   entregado boolean not null default false,
   estado_pago payment_status not null default 'pendiente',
   invite_slug text unique, -- link público de invitación (/invitacion/<slug>)

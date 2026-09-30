@@ -48,7 +48,7 @@ export type Event = {
   fecha_evento: string;
   lugar: string | null;
   tipo_evento: EventType;
-  drive_link: string | null;
+  drive_links: string[];
   entregado: boolean;
   estado_pago: PaymentStatus;
   invite_slug: string | null;

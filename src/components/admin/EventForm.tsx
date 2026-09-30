@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { FormField, fieldInputClasses } from "@/components/ui/FormField";
 import { Button } from "@/components/ui/Button";
 import {
@@ -22,6 +22,21 @@ export function EventForm({
 }) {
   const action = event ? updateEvent.bind(null, event.id) : createEvent;
   const [state, formAction, pending] = useActionState(action, initialState);
+  const [driveLinks, setDriveLinks] = useState<string[]>(
+    event?.drive_links && event.drive_links.length > 0 ? event.drive_links : [""],
+  );
+
+  function updateDriveLink(index: number, value: string) {
+    setDriveLinks((links) => links.map((link, i) => (i === index ? value : link)));
+  }
+
+  function addDriveLink() {
+    setDriveLinks((links) => [...links, ""]);
+  }
+
+  function removeDriveLink(index: number) {
+    setDriveLinks((links) => links.filter((_, i) => i !== index));
+  }
 
   return (
     <form action={formAction} className="flex flex-col gap-5">
@@ -123,18 +138,42 @@ export function EventForm({
       </div>
 
       <FormField
-        label="Link de la carpeta de Drive"
-        htmlFor="drive_link"
-        hint="La carpeta debe estar compartida como 'cualquiera con el link puede ver'."
+        label="Carpetas de Drive"
+        htmlFor="drive_links"
+        hint="Cada carpeta debe estar compartida como 'cualquiera con el link puede ver'. Las fotos de todas se muestran juntas en la invitación."
       >
-        <input
-          id="drive_link"
-          name="drive_link"
-          type="url"
-          defaultValue={event?.drive_link ?? ""}
-          placeholder="https://drive.google.com/..."
-          className={fieldInputClasses}
-        />
+        <div className="flex flex-col gap-2.5">
+          {driveLinks.map((link, index) => (
+            <div key={index} className="flex gap-2">
+              <input
+                id={index === 0 ? "drive_links" : undefined}
+                name="drive_links"
+                type="url"
+                value={link}
+                onChange={(e) => updateDriveLink(index, e.target.value)}
+                placeholder="https://drive.google.com/..."
+                className={fieldInputClasses}
+              />
+              {driveLinks.length > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => removeDriveLink(index)}
+                  aria-label="Quitar carpeta"
+                  className="flex-none rounded-lg border border-border-strong px-3 text-sm text-muted transition-colors hover:border-red-800/50 hover:text-red-300"
+                >
+                  Quitar
+                </button>
+              ) : null}
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={addDriveLink}
+          className="mt-3 text-xs font-semibold uppercase tracking-[0.08em] text-gold hover:text-gold-light"
+        >
+          + Agregar carpeta
+        </button>
       </FormField>
 
       {state.error ? (

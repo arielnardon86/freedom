@@ -13,11 +13,14 @@ function parseEventForm(formData: FormData) {
   const fecha_evento = String(formData.get("fecha_evento") ?? "");
   const lugar = String(formData.get("lugar") ?? "").trim() || null;
   const tipo_evento = String(formData.get("tipo_evento") ?? "") as EventType;
-  const drive_link = String(formData.get("drive_link") ?? "").trim() || null;
+  const drive_links = formData
+    .getAll("drive_links")
+    .map((value) => String(value).trim())
+    .filter(Boolean);
   const entregado = formData.get("entregado") === "on";
   const estado_pago = String(formData.get("estado_pago") ?? "pendiente") as PaymentStatus;
 
-  return { nombre, cliente_id, fecha_evento, lugar, tipo_evento, drive_link, entregado, estado_pago };
+  return { nombre, cliente_id, fecha_evento, lugar, tipo_evento, drive_links, entregado, estado_pago };
 }
 
 export async function createEvent(

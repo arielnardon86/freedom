@@ -16,6 +16,11 @@ export function extractDriveFolderId(url: string | null): string | null {
   return match?.[1] ?? null;
 }
 
+export function extractDriveFolderIds(urls: string[]): string[] {
+  const ids = urls.map((url) => extractDriveFolderId(url)).filter((id): id is string => Boolean(id));
+  return Array.from(new Set(ids));
+}
+
 export type DriveImage = {
   id: string;
   name: string;
@@ -44,6 +49,22 @@ export async function listDriveImages(folderId: string): Promise<DriveImage[]> {
 
   const data = (await response.json()) as { files?: DriveImage[] };
   return data.files ?? [];
+}
+
+// Junta las fotos de varias carpetas en una sola lista, sin duplicar si un
+// mismo archivo apareciera en más de una carpeta.
+export async function listDriveImagesFromFolders(folderIds: string[]): Promise<DriveImage[]> {
+  const results = await Promise.all(folderIds.map((folderId) => listDriveImages(folderId)));
+  const seen = new Set<string>();
+  const merged: DriveImage[] = [];
+  for (const photos of results) {
+    for (const photo of photos) {
+      if (seen.has(photo.id)) continue;
+      seen.add(photo.id);
+      merged.push(photo);
+    }
+  }
+  return merged;
 }
 
 // Reenvía el archivo desde Route Handlers sin exponer la API key al cliente.
