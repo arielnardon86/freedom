@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Topbar } from "@/components/admin/Topbar";
 import { EventForm } from "@/components/admin/EventForm";
-import { InvitationShare } from "@/components/admin/InvitationShare";
+import { InvitationShare } from "@/components/invitacion/InvitationShare";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ComingSoon } from "@/components/ui/ComingSoon";

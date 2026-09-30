@@ -3,9 +3,12 @@ import { notFound, redirect } from "next/navigation";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ComingSoon } from "@/components/ui/ComingSoon";
+import { InvitationShare } from "@/components/invitacion/InvitationShare";
 import { isDatabaseConfigured } from "@/lib/db";
 import { getSession } from "@/lib/auth/session";
 import { getEventForClient } from "@/lib/queries";
+import { generateQrDataUrl } from "@/lib/qrcode";
+import { getBaseUrl } from "@/lib/url";
 import { eventTypeLabels } from "@/lib/types";
 
 export default async function PortalEventoPage({
@@ -29,6 +32,10 @@ export default async function PortalEventoPage({
   if (!event) {
     notFound();
   }
+
+  const baseUrl = await getBaseUrl();
+  const inviteUrl = event.invite_slug ? `${baseUrl}/invitacion/${event.invite_slug}` : null;
+  const qrDataUrl = inviteUrl ? await generateQrDataUrl(inviteUrl) : null;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -56,6 +63,28 @@ export default async function PortalEventoPage({
           </Badge>
         </p>
       </div>
+
+      {event.invite_slug && inviteUrl && qrDataUrl ? (
+        <div className="rounded-2xl border border-border bg-background-elevated p-6">
+          <h2 className="font-display text-base font-semibold text-foreground">Invitación</h2>
+          <p className="mt-1 text-sm text-muted">
+            Compartí este link o QR con tus invitados para que vean, likeen y descarguen
+            las fotos del evento.
+          </p>
+          <div className="mt-4 flex flex-col gap-4">
+            <InvitationShare url={inviteUrl} slug={event.invite_slug} qrDataUrl={qrDataUrl} />
+            <Button
+              href={`/invitacion/${event.invite_slug}`}
+              variant="outline"
+              className="w-fit"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ver invitación
+            </Button>
+          </div>
+        </div>
+      ) : null}
 
       {event.drive_links.length > 0 ? (
         <div className="rounded-2xl border border-border bg-background-elevated p-6">

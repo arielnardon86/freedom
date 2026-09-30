@@ -1,4 +1,4 @@
-import { InvitationLink } from "@/components/admin/InvitationLink";
+import { InvitationLink } from "@/components/invitacion/InvitationLink";
 
 export function InvitationShare({
   url,
