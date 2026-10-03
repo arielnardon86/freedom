@@ -11,6 +11,13 @@ declare global {
 // strings "YYYY-MM-DD" / ISO.
 const stringDate = { to: 1082, from: [1082, 1114, 1184], serialize: String, parse: String };
 
+// Clever Cloud (plan Dev) limita el rol de la base a 5 conexiones
+// simultáneas como máximo (rolconnlimit = 5, verificado contra la base).
+// Con el pool por default de postgres.js (max: 10) un solo proceso del
+// server ya podría agotarlo él solo. Se deja un máximo bajo y se liberan
+// las conexiones ociosas rápido para no acaparar los pocos slots
+// disponibles entre ráfagas de tráfico.
+//
 // Reutiliza la conexión entre hot-reloads en dev (evita agotar el pool de
 // Postgres cada vez que Next.js recompila).
 export const sql =
@@ -18,6 +25,10 @@ export const sql =
   postgres(process.env.DATABASE_URL ?? "", {
     onnotice: () => {},
     types: { date: stringDate },
+    max: 3,
+    idle_timeout: 20,
+    max_lifetime: 60 * 30,
+    connect_timeout: 10,
   });
 
 if (process.env.NODE_ENV !== "production") {
