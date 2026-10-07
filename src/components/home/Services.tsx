@@ -141,6 +141,14 @@ export function Services() {
                       {service.subtitle}
                     </span>
                   ) : null}
+                  {hasGallery ? (
+                    <span className="mt-1.5 flex items-center justify-center gap-1 text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-gold/80 transition-colors group-hover:text-gold">
+                      Ver más
+                      <svg viewBox="0 0 24 24" className="h-2.5 w-2.5 transition-transform group-hover:translate-x-0.5" fill="none" aria-hidden="true">
+                        <path d="M5 12h14m0 0-5-5m5 5-5 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  ) : null}
                 </span>
               </>
             );
