@@ -20,6 +20,7 @@ const scriptFont = Alex_Brush({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://produccionesfreedom.onrender.com"),
   title: "Freedom Fotografía | Fotografía y video de eventos en Córdoba",
   description:
     "Bodas, 15 años, egresos, eventos corporativos y sociales. Capturamos los momentos que se convierten en tus recuerdos más lindos. Córdoba y alrededores.",
