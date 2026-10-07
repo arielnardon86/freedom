@@ -26,7 +26,7 @@ export const sql =
     onnotice: () => {},
     types: { date: stringDate },
     max: 3,
-    idle_timeout: 20,
+    idle_timeout: 10,
     max_lifetime: 60 * 30,
     connect_timeout: 10,
   });
