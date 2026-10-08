@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { setLike } from "@/app/invitacion/[slug]/actions";
 import { getLikedPhotoIds, getVisitorId, saveLikedPhotoIds } from "@/lib/visitor";
+import { PhotoLightbox } from "@/components/invitacion/PhotoLightbox";
 import type { DriveImage } from "@/lib/drive";
 
 type LikeState = Record<string, { count: number; liked: boolean }>;
@@ -14,14 +15,6 @@ function HeartIcon({ filled }: { filled: boolean }) {
   return (
     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" aria-hidden="true">
       <path d="M12 20.5s-7.5-4.6-10-9.2C.5 8 2 4.5 5.5 4c2-.3 3.8.7 4.9 2.3.4.6.6.9.6.9s.2-.3.6-.9C12.7 4.7 14.5 3.7 16.5 4 20 4.5 21.5 8 20 11.3c-2.5 4.6-10 9.2-10 9.2Z" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function DownloadIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -39,6 +32,7 @@ export function PhotoGrid({
   const [likes, setLikes] = useState<LikeState>({});
   const [page, setPage] = useState(0);
   const [gridRef, setGridRef] = useState<HTMLDivElement | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   useEffect(() => {
     setVisitorId(getVisitorId());
@@ -82,6 +76,7 @@ export function PhotoGrid({
 
   const totalPages = Math.ceil(photos.length / PAGE_SIZE);
   const visiblePhotos = photos.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  const activePhoto = activeIndex !== null ? visiblePhotos[activeIndex] : null;
 
   function goToPage(next: number) {
     setPage(next);
@@ -91,12 +86,21 @@ export function PhotoGrid({
   return (
     <div className="flex flex-col gap-6">
       <div ref={setGridRef} className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {visiblePhotos.map((photo) => {
+        {visiblePhotos.map((photo, index) => {
           const state = likes[photo.id] ?? { count: initialLikes[photo.id] ?? 0, liked: false };
           return (
             <div
               key={photo.id}
-              className="group relative aspect-square overflow-hidden rounded-xl border border-border"
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveIndex(index)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActiveIndex(index);
+                }
+              }}
+              className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border"
             >
               {photo.thumbnailLink ? (
                 <Image
@@ -112,29 +116,22 @@ export function PhotoGrid({
               )}
               <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/75 to-transparent" />
 
-              <div className="absolute inset-x-2 bottom-2 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => toggleLike(photo.id)}
-                  aria-pressed={state.liked}
-                  className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold backdrop-blur-sm transition-colors ${
-                    state.liked
-                      ? "bg-gold text-[#171207]"
-                      : "bg-black/50 text-white hover:bg-black/70"
-                  }`}
-                >
-                  <HeartIcon filled={state.liked} />
-                  {state.count}
-                </button>
-
-                <a
-                  href={`/api/drive/${photo.id}/download?name=${encodeURIComponent(photo.name)}`}
-                  className="rounded-full bg-black/50 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
-                  aria-label={`Descargar ${photo.name}`}
-                >
-                  <DownloadIcon />
-                </a>
-              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleLike(photo.id);
+                }}
+                aria-pressed={state.liked}
+                className={`absolute bottom-2 left-2 flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold backdrop-blur-sm transition-colors ${
+                  state.liked
+                    ? "bg-gold text-[#171207]"
+                    : "bg-black/50 text-white hover:bg-black/70"
+                }`}
+              >
+                <HeartIcon filled={state.liked} />
+                {state.count}
+              </button>
             </div>
           );
         })}
@@ -162,6 +159,19 @@ export function PhotoGrid({
             Siguiente →
           </button>
         </div>
+      ) : null}
+
+      {activePhoto ? (
+        <PhotoLightbox
+          photo={activePhoto}
+          onClose={() => setActiveIndex(null)}
+          onPrev={() => setActiveIndex((i) => (i !== null ? i - 1 : i))}
+          onNext={() => setActiveIndex((i) => (i !== null ? i + 1 : i))}
+          hasPrev={activeIndex !== null && activeIndex > 0}
+          hasNext={activeIndex !== null && activeIndex < visiblePhotos.length - 1}
+          like={likes[activePhoto.id] ?? { count: initialLikes[activePhoto.id] ?? 0, liked: false }}
+          onToggleLike={() => toggleLike(activePhoto.id)}
+        />
       ) : null}
     </div>
   );

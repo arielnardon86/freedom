@@ -29,6 +29,16 @@ export type DriveImage = {
 
 export type DriveVideo = DriveImage;
 
+// thumbnailLink viene con un "=sNNN" al final que controla el tamaño que
+// sirve el CDN de Google. Pedimos una versión más grande para la vista
+// previa ampliada sin tener que bajar el archivo original por nuestro
+// servidor (sigue siendo Google quien lo sirve, no cuenta contra nuestra
+// cuota de la API de Drive).
+export function driveThumbnailUrl(thumbnailLink: string | null, size: number): string | null {
+  if (!thumbnailLink) return null;
+  return thumbnailLink.replace(/=s\d+$/, `=s${size}`);
+}
+
 async function listDriveFilesByMime(folderId: string, mimePrefix: string): Promise<DriveImage[]> {
   const apiKey = process.env.GOOGLE_DRIVE_API_KEY;
   if (!apiKey) return [];

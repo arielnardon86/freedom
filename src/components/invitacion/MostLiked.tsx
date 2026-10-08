@@ -1,4 +1,8 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { PhotoLightbox } from "@/components/invitacion/PhotoLightbox";
 import type { DriveImage } from "@/lib/drive";
 
 export function MostLiked({
@@ -8,7 +12,11 @@ export function MostLiked({
   photos: DriveImage[];
   likeCounts: Record<string, number>;
 }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   if (photos.length === 0) return null;
+
+  const activePhoto = activeIndex !== null ? photos[activeIndex] : null;
 
   return (
     <section className="border-t border-border px-6 py-16 sm:px-10">
@@ -23,10 +31,19 @@ export function MostLiked({
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {photos.map((photo) => (
+          {photos.map((photo, index) => (
             <div
               key={photo.id}
-              className="relative aspect-square overflow-hidden rounded-xl border border-border"
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveIndex(index)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActiveIndex(index);
+                }
+              }}
+              className="relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border"
             >
               {photo.thumbnailLink ? (
                 <Image
@@ -47,6 +64,17 @@ export function MostLiked({
           ))}
         </div>
       </div>
+
+      {activePhoto ? (
+        <PhotoLightbox
+          photo={activePhoto}
+          onClose={() => setActiveIndex(null)}
+          onPrev={() => setActiveIndex((i) => (i !== null ? i - 1 : i))}
+          onNext={() => setActiveIndex((i) => (i !== null ? i + 1 : i))}
+          hasPrev={activeIndex !== null && activeIndex > 0}
+          hasNext={activeIndex !== null && activeIndex < photos.length - 1}
+        />
+      ) : null}
     </section>
   );
 }
