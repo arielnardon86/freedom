@@ -34,7 +34,7 @@ export function InvitationHero({ event }: { event: Event }) {
       </p>
 
       <p className="max-w-md text-sm leading-relaxed text-muted">
-        Estas son las fotos de tu evento. Mirá, likeá tus favoritas y descargalas.
+        Estas son las fotos de tu evento. Mirá cada una en grande y likeá tus favoritas.
       </p>
     </header>
   );

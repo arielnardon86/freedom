@@ -57,6 +57,9 @@ export function MostLiked({
               ) : (
                 <div className="absolute inset-0 bg-background-elevated" />
               )}
+              <span className="absolute left-2 top-2 rounded-full bg-black/50 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white backdrop-blur-sm">
+                Ver
+              </span>
               <span className="absolute bottom-2 right-2 rounded-full bg-black/60 px-2 py-0.5 text-[0.65rem] font-semibold text-gold backdrop-blur-sm">
                 ♥ {likeCounts[photo.id] ?? 0}
               </span>

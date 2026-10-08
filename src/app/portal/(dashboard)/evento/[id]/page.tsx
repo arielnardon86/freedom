@@ -67,8 +67,8 @@ export default async function PortalEventoPage({
         <div className="rounded-2xl border border-border bg-background-elevated p-6">
           <h2 className="font-display text-base font-semibold text-foreground">Invitación</h2>
           <p className="mt-1 text-sm text-muted">
-            Compartí este link o QR con tus invitados para que vean, likeen y descarguen
-            las fotos del evento.
+            Compartí este link o QR con tus invitados para que vean y likeen las fotos
+            del evento.
           </p>
           <div className="mt-4 flex flex-col gap-4">
             <InvitationShare url={inviteUrl} slug={event.invite_slug} qrDataUrl={qrDataUrl} />

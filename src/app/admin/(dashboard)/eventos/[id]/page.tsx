@@ -62,8 +62,8 @@ export default async function EditarEventoPage({
         <div className="rounded-2xl border border-border bg-background-elevated p-6">
           <h2 className="font-display text-base font-semibold text-foreground">Invitación</h2>
           <p className="mt-1 text-sm text-muted">
-            Link para que el cliente y sus invitados vean, likeen y descarguen las fotos
-            del evento dentro de tu web.
+            Link para que el cliente y sus invitados vean y likeen las fotos del evento
+            dentro de tu web.
           </p>
 
           {event.invite_slug && inviteUrl && qrDataUrl ? (

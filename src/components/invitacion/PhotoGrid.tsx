@@ -116,6 +116,10 @@ export function PhotoGrid({
               )}
               <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/75 to-transparent" />
 
+              <span className="absolute left-2 top-2 rounded-full bg-black/50 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white backdrop-blur-sm">
+                Ver
+              </span>
+
               <button
                 type="button"
                 onClick={(e) => {

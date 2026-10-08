@@ -3,7 +3,6 @@ import { InvitationHero } from "@/components/invitacion/InvitationHero";
 import { PhotoGrid } from "@/components/invitacion/PhotoGrid";
 import { VideoGrid } from "@/components/invitacion/VideoGrid";
 import { MostLiked } from "@/components/invitacion/MostLiked";
-import { DownloadAllButton } from "@/components/invitacion/DownloadAllButton";
 import { ReviewsSection } from "@/components/invitacion/ReviewsSection";
 import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
 import { Button } from "@/components/ui/Button";
@@ -77,12 +76,7 @@ export default async function InvitacionPage({
             </p>
           ) : (
             <>
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <h2 className="font-display text-2xl font-semibold text-foreground">
-                  Las fotos
-                </h2>
-                {photos.length > 0 ? <DownloadAllButton slug={slug} /> : null}
-              </div>
+              <h2 className="font-display text-2xl font-semibold text-foreground">Las fotos</h2>
               <PhotoGrid eventId={event.id} photos={photos} initialLikes={likeCounts} />
             </>
           )}

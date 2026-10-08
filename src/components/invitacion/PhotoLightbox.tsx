@@ -25,14 +25,6 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
-function DownloadIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function HeartIcon({ filled }: { filled: boolean }) {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -83,15 +75,7 @@ export function PhotoLightbox({
       aria-modal="true"
       onClick={onClose}
     >
-      <div className="flex items-center justify-end gap-3 px-4 py-3 sm:px-6">
-        <a
-          href={`/api/drive/${photo.id}/download?name=${encodeURIComponent(photo.name)}`}
-          onClick={(e) => e.stopPropagation()}
-          className="flex items-center gap-2 rounded-full bg-gold px-4 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-[#171207] transition-colors hover:bg-gold-light"
-        >
-          <DownloadIcon />
-          Descargar
-        </a>
+      <div className="flex items-center justify-end px-4 py-3 sm:px-6">
         <button
           type="button"
           onClick={(e) => {
